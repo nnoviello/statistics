@@ -19,4 +19,9 @@ public class VariableTest {
 		assertEquals(1, variable.getScores().size());
 		
 	}
+	@Test
+	public void verifyCountOfEnteredScores() throws Exception {
+		fail("write me!");
+		
+	}
 }
