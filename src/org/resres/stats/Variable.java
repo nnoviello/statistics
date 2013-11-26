@@ -26,5 +26,9 @@ public class Variable {
 	public List getScores() {
 		return scores;
 	}
+	public int getN()
+	{
+		return scores.size();
+	}
 
 }
