@@ -7,4 +7,6 @@ public interface Command
 
 	public String explain();
 
+	public double getResult();
+
 }

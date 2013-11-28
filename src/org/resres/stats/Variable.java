@@ -12,7 +12,7 @@ public class Variable {
 	protected Map<Double,Integer> frequencies;
 	protected double sum;
 	protected double mean;
-	private int n;
+	protected int n;
 	public Variable() {
 		scores = new ArrayList<Double>();
 		initFrequencyMap();
@@ -46,7 +46,7 @@ public class Variable {
 		calculateSum();
 		calculateMean(); 
 	}
-	private void calculateN()
+	protected void calculateN()
 	{
 		n = scores.size(); 
 	}
@@ -85,7 +85,7 @@ public class Variable {
 			sum+=score; 
 		}
 	}
-	private void calculateMean()
+	protected void calculateMean()
 	{
 		mean = 0; 
 		if (n > 0)

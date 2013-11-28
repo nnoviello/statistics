@@ -1,15 +1,14 @@
 package org.resres.stats;
 
-public class SumCommand implements Command
+public class SumCommand extends AbstractCommand implements Command
 {
 
-	private static final String ADD_ALL_THE_SCORES_OF_VARIABLE = "Add all the scores of variable ";
-	private static final String TO_CREATE_THE_SUM = " to create the Sum.";
-	private Variable variable;
+	private static final String EXPLANATION = "Add all the scores of variable ";
+	private static final String RESULT = ", giving the sum of scores.";
 
 	public SumCommand(Variable variable)
 	{
-		this.variable = variable; 
+		super(variable, EXPLANATION, RESULT);
 	}
 
 	@Override
@@ -17,11 +16,10 @@ public class SumCommand implements Command
 	{
 		variable.calculateSum();
 	}
-
 	@Override
-	public String explain()
+	public double getResult()
 	{
-		return ADD_ALL_THE_SCORES_OF_VARIABLE+variable.getName()+TO_CREATE_THE_SUM;
+		return variable.getSum();
 	}
 
 }
