@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
-public class Variable {
+public class Variable 
+{
 
 	private String name = "Var1";
 	private List<Double> scores;
@@ -19,7 +21,6 @@ public class Variable {
 	}
 	public void addScore(double d) {
 		scores.add(d);
-		
 	}
 
 	public List getScores() {
@@ -98,4 +99,5 @@ public class Variable {
 		calculate(); 
 		return mean;
 	}
+	
 }

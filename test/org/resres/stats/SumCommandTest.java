@@ -32,11 +32,6 @@ public class SumCommandTest
 		command.execute(); 
 		assertEquals(2.2, command.getResult(), .001); 
 	}
-	@Test
-	public void verifySumCommandExplainsItself() throws Exception
-	{
-		assertEquals("Add all the scores of variable X, giving the sum of scores.", command.explain()); 
-	}
 	@Test(expected=IllegalArgumentException.class)
 	public void verifyThrowsIfInitializedWithNull() throws Exception
 	{

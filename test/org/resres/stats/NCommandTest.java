@@ -32,9 +32,4 @@ public class NCommandTest
 		command.execute(); 
 		assertEquals(2, command.getResult(), .001); 
 	}
-	@Test
-	public void verifyNCommandExplainsItself() throws Exception
-	{
-		assertEquals("Count the number of scores of X, giving n.", command.explain()); 
-	}
 }

@@ -1,6 +1,8 @@
 package org.resres.stats;
 
-public abstract class AbstractCommand implements Command
+import java.util.Observable;
+
+public abstract class AbstractCommand extends Observable implements Command
 {
 
 	private static final String SUM_COMMAND_MUST_BE_INITIALIZED_WITH_A_NON_NULL_VARIABLE = "SumCommand:  must be initialized with a non-null Variable.";
@@ -16,7 +18,18 @@ public abstract class AbstractCommand implements Command
 		this.explanation = explanation; 
 		this.result = result; 
 	}
-
+	public AbstractCommand(Teacher teacher, Variable variable,
+			String explanation, String result)
+	{
+		this(variable, explanation, result); 
+		if (teacher != null) addObserver(teacher); 
+	}
+	@Override
+	public void execute()
+	{
+		setChanged(); 
+		notifyObservers(this); 
+	}
 	@Override
 	public String explain()
 	{

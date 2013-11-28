@@ -33,11 +33,5 @@ public class MeanCommandTest
 		command.execute(); 
 		assertEquals(1.1, command.getResult(), .001); 
 	}
-	@Test
-	public void verifyMeanCommandExplainsItself() throws Exception
-	{
-		assertEquals("Divides sum of scores by n of X, giving the mean.", command.explain()); 
-	}
-
 	
 }
