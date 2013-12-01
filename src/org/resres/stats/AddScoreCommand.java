@@ -6,18 +6,18 @@ public class AddScoreCommand extends AbstractCommand implements Command
 	private static final String RESULT = ".";
 	private double score;
 
-	public AddScoreCommand(Variable variable)
+	public AddScoreCommand(Variable variable, boolean invoked)
 	{
-		super(variable, EXPLANATION, RESULT);
+		super(variable, EXPLANATION, RESULT, invoked);
 	}
-	public AddScoreCommand(Teacher teacher, Variable variable, double score)
+	public AddScoreCommand(Teacher teacher, Variable variable, double score, boolean invoked)
 	{
-		super(teacher, variable, EXPLANATION, RESULT); 
+		super(teacher, variable, EXPLANATION, RESULT, invoked); 
 		this.score = score; 
 	}
-	public AddScoreCommand(Variable variable, double score)
+	public AddScoreCommand(Variable variable, double score, boolean invoked)
 	{
-		this(null, variable, score);
+		this(null, variable, score, invoked);
 	}
 	@Override
 	public void execute()

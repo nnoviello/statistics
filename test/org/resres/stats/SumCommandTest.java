@@ -17,7 +17,7 @@ public class SumCommandTest
 		variable.setName("X"); 
 		variable.addScore(1.2); 
 		variable.addScore(1.0); 
-		command = new SumCommand(variable); 
+		command = new SumCommand(variable, true); 
 	}
 	@Test
 	public void verifyCommandInvokesSumOnTargetVariable() throws Exception
@@ -35,6 +35,6 @@ public class SumCommandTest
 	@Test(expected=IllegalArgumentException.class)
 	public void verifyThrowsIfInitializedWithNull() throws Exception
 	{
-		command = new SumCommand(null); 
+		command = new SumCommand(null, true); 
 	}
 }

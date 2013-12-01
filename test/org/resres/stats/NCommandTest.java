@@ -16,7 +16,7 @@ public class NCommandTest
 		variable.setName("X"); 
 		variable.addScore(1.2); 
 		variable.addScore(1.0); 
-		command = new NCommand(variable); 
+		command = new NCommand(variable, true); 
 	}
 	@Test
 	public void verifyCommandInvokesNOnTargetVariable() throws Exception
@@ -26,7 +26,7 @@ public class NCommandTest
 		assertEquals(2, variable.n);
 	}
 	@Test
-	//TODO refactor to take integer
+	//TODO refactor commands return integer
 	public void verifyCommandRetrievesResult() throws Exception
 	{
 		command.execute(); 

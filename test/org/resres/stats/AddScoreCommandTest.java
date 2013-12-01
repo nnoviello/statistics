@@ -14,7 +14,7 @@ public class AddScoreCommandTest
 	{
 		variable = new Variable(); 	
 		variable.setName("X"); 
-		command = new AddScoreCommand(variable, 1.2); 
+		command = new AddScoreCommand(variable, 1.2, true); 
 	}
 	@Test
 	public void verifyCommandInvokesAddScoreOnTargetVariable() throws Exception

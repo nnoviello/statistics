@@ -23,6 +23,18 @@ public class Teacher implements Observer
 	{
 		commands.push((Command) objCommand);  
 	}
+	public Command getLastCommand()
+	{
+		if (commands.empty()) return null; 
+		else return commands.pop();
+	}
+	public Command getLastDetailedCommand()
+	{
+//		Command command = null; 
+//		if (commands.empty()) return null; 
+//		command
+		return null;
+	}
 
 	
 }

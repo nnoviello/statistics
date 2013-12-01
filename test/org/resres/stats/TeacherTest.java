@@ -20,16 +20,49 @@ public class TeacherTest
 		teacher = new Teacher(); 
 		variable = new Variable(); 
 		variable.setName("X"); 
-		command1 = new AddScoreCommand(teacher, variable, 1.2); 
+	}
+	protected void addTwoExplicitCommands()
+	{
+		command1 = new AddScoreCommand(teacher, variable, 1.2, true); 
 		command1.execute(); 
-		command2 = new NCommand(teacher, variable); 
-		command2.execute(); 
+		command2 = new NCommand(teacher, variable, true); 
+		command2.execute();
 	}
 	@Test
 	public void verifyTeacherRemembersCommandsInOrderTheyWereIssued() throws Exception
 	{
+		addTwoExplicitCommands(); 
 		assertEquals(command2.explain(), teacher.explainLastCommand()); 
 		assertEquals(command1.explain(), teacher.explainLastCommand()); 
 		assertEquals("No earlier commands to explain.", teacher.explainLastCommand()); 
+	}
+	@Test
+	public void verifyTeacherOnlyReturnsExplicitlyInvokedCommandsByDefault() throws Exception
+	{
+		addThreeExplicitCommands(); 
+		assertTrue(teacher.getLastCommand() instanceof MeanCommand);  
+		assertTrue(teacher.getLastCommand() instanceof AddScoreCommand);  
+		assertTrue(teacher.getLastCommand() instanceof AddScoreCommand);  
+		assertNull(teacher.getLastCommand()); 
+	}
+	protected void addThreeExplicitCommands()
+	{
+		Command command = new AddScoreCommand(teacher, variable, 1.2, true); 
+		command.execute(); 
+		command = new AddScoreCommand(teacher, variable, 1.0, true); 
+		command.execute(); 
+		command = new MeanCommand(teacher, variable, true); 
+		command.execute();
+	}
+//	@Test
+	public void verifyTeacherReturnsDetailedCommandsOnRequest() throws Exception
+	{
+		assertTrue(teacher.getLastDetailedCommand() instanceof MeanCommand);  
+		assertTrue(teacher.getLastDetailedCommand() instanceof SumCommand);  
+		assertTrue(teacher.getLastDetailedCommand() instanceof NCommand);  
+		assertTrue(teacher.getLastDetailedCommand() instanceof AddScoreCommand);  
+		assertTrue(teacher.getLastDetailedCommand() instanceof AddScoreCommand);  
+		assertNull(teacher.getLastDetailedCommand()); 
+		
 	}
 }

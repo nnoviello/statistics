@@ -6,13 +6,13 @@ public class SumCommand extends AbstractCommand implements Command
 	private static final String EXPLANATION = "Add all the scores of variable ";
 	private static final String RESULT = ", giving the sum of scores.";
 
-	public SumCommand(Teacher teacher, Variable variable)
+	public SumCommand(Teacher teacher, Variable variable, boolean invoked)
 	{
-		super(teacher, variable, EXPLANATION, RESULT); 
+		super(teacher, variable, EXPLANATION, RESULT, invoked); 
 	}
-	public SumCommand(Variable variable)
+	public SumCommand(Variable variable, boolean invoked)
 	{
-		this(null, variable);
+		this(null, variable, invoked);
 	}
 
 	@Override
