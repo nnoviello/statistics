@@ -36,6 +36,8 @@ public abstract class AbstractCommand extends Observable implements Command
 			addObserver(teacher); 
 			this.teacher = teacher; 
 		}
+		subcommands = new ArrayList<Command>();
+		buildSubcommands(); // invoke this with a teacher
 	}
 	@Override
 	public void execute()

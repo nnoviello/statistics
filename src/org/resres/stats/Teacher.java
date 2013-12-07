@@ -7,7 +7,7 @@ import java.util.Stack;
 public class Teacher implements Observer
 {
 	private Stack<Command> commands;
-
+	//TODO anything popped should be pushed to forward stack
 	public Teacher()
 	{
 		commands = new Stack<Command>(); 
@@ -25,15 +25,18 @@ public class Teacher implements Observer
 	}
 	public Command getLastCommand()
 	{
-		if (commands.empty()) return null; 
-		else return commands.pop();
+		Command command = getLastDetailedCommand();
+		while ((command != null) && 
+			(!command.explicitlyInvoked()))
+		{
+			command = getLastDetailedCommand();
+		}
+		return command;
 	}
 	public Command getLastDetailedCommand()
 	{
-//		Command command = null; 
-//		if (commands.empty()) return null; 
-//		command
-		return null;
+		if (commands.empty()) return null;
+		else return commands.pop();  
 	}
 
 	

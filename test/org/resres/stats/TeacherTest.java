@@ -54,9 +54,10 @@ public class TeacherTest
 		command = new MeanCommand(teacher, variable, true); 
 		command.execute();
 	}
-//	@Test
+	@Test
 	public void verifyTeacherReturnsDetailedCommandsOnRequest() throws Exception
 	{
+		addThreeExplicitCommands(); 
 		assertTrue(teacher.getLastDetailedCommand() instanceof MeanCommand);  
 		assertTrue(teacher.getLastDetailedCommand() instanceof SumCommand);  
 		assertTrue(teacher.getLastDetailedCommand() instanceof NCommand);  
