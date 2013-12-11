@@ -6,38 +6,83 @@ import java.util.Stack;
 
 public class Teacher implements Observer
 {
-	private Stack<Command> commands;
-	//TODO anything popped should be pushed to forward stack
+	private static final String NO_EARLIER_COMMANDS_TO_EXPLAIN = "No earlier commands to explain.";
+	private static final String NO_LATER_COMMANDS_TO_EXPLAIN = "No later commands to explain.";
+	private Stack<Command> previousCommands;
+	private Stack<Command> nextCommands;
 	public Teacher()
 	{
-		commands = new Stack<Command>(); 
+		previousCommands = new Stack<Command>(); 
+		nextCommands = new Stack<Command>(); 
 	}
-	public String explainLastCommand()
+	public String explainPreviousCommand()
 	{
-		if (commands.empty()) return "No earlier commands to explain."; 
-		else return commands.pop().explain();
+		return explainCommand(true); 
 	}
-	
+	public String explainNextCommand()
+	{
+		return explainCommand(false); 
+	}
+	//TODO test update with nextCommands
 	@Override
 	public void update(Observable objCommand, Object unused)
 	{
-		commands.push((Command) objCommand);  
+		previousCommands.push((Command) objCommand);  
 	}
-	public Command getLastCommand()
+	public Command getPreviousCommand()
 	{
-		Command command = getLastDetailedCommand();
-		while ((command != null) && 
-			(!command.explicitlyInvoked()))
+		return getCommand(true); 
+	}
+	public Command getPreviousDetailedCommand()
+	{
+		return getDetailedCommand(true); 
+	}
+	public Command getNextCommand()
+	{
+		return getCommand(false); 
+	}
+	public Command getNextDetailedCommand()
+	{
+		return getDetailedCommand(false); 
+	}
+	private String explainCommand(boolean backward)
+	{
+		String explanation = null;
+		Command command = getCommand(backward); 
+		if (command == null)
 		{
-			command = getLastDetailedCommand();
+			explanation = (backward) ? NO_EARLIER_COMMANDS_TO_EXPLAIN : NO_LATER_COMMANDS_TO_EXPLAIN; 
+		}
+		else explanation = command.explain(); 
+		return explanation; 
+	}
+	
+	private Command getDetailedCommand(boolean backward)
+	{
+		Command command = null; 
+		if (backward)
+		{
+			command = shiftOneCommand(previousCommands, nextCommands); 
+		}
+		else command = shiftOneCommand(nextCommands, previousCommands);
+		return command;
+	}
+	private Command shiftOneCommand(Stack<Command> fromCommands,
+			Stack<Command> toCommands)
+	{
+		if (fromCommands.empty()) return null; 
+		Command command = fromCommands.pop(); 
+		toCommands.push(command); 
+		return command;
+	}
+	private Command getCommand(boolean backward)
+	{
+		Command command = getDetailedCommand(backward);
+		while ((command != null) && 
+				(!command.explicitlyInvoked()))
+		{
+			command = getDetailedCommand(backward);
 		}
 		return command;
 	}
-	public Command getLastDetailedCommand()
-	{
-		if (commands.empty()) return null;
-		else return commands.pop();  
-	}
-
-	
 }

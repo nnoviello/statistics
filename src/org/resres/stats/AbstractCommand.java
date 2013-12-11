@@ -6,8 +6,8 @@ import java.util.Observable;
 
 public abstract class AbstractCommand extends Observable implements Command
 {
-
-	private static final String SUM_COMMAND_MUST_BE_INITIALIZED_WITH_A_NON_NULL_VARIABLE = "SumCommand:  must be initialized with a non-null Variable.";
+	//TODO Move messages to a property file
+	private static final String COMMAND_MUST_BE_INITIALIZED_WITH_A_NON_NULL_VARIABLE = "Command:  must be initialized with a non-null Variable.";
 	private String explanation = "";
 	private String result ="";
 
@@ -15,10 +15,11 @@ public abstract class AbstractCommand extends Observable implements Command
 	protected List<Command> subcommands;
 	protected Teacher teacher;
 	private boolean invoked;
+	protected boolean executed = false;
 
 	public AbstractCommand(Variable variable, String explanation, String result, boolean invoked)
 	{
-		if (variable == null) throw new IllegalArgumentException(SUM_COMMAND_MUST_BE_INITIALIZED_WITH_A_NON_NULL_VARIABLE); 
+		if (variable == null) throw new IllegalArgumentException(COMMAND_MUST_BE_INITIALIZED_WITH_A_NON_NULL_VARIABLE); 
 		this.variable = variable; 
 		this.explanation = explanation; 
 		this.result = result; 
@@ -46,6 +47,7 @@ public abstract class AbstractCommand extends Observable implements Command
 		{
 			command.execute(); 
 		}
+		executed = true;
 		setChanged(); 
 		notifyObservers(this); 
 	}
@@ -65,5 +67,6 @@ public abstract class AbstractCommand extends Observable implements Command
 	{
 		return invoked;
 	}
+
 }
 

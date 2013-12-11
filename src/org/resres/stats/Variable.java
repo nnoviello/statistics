@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 
 public class Variable 
 {
@@ -12,18 +11,36 @@ public class Variable
 	private String name = "Var1";
 	private List<Double> scores;
 	protected Map<Double,Integer> frequencies;
-	protected double sum;
+	protected double sumOfScores;
 	protected double mean;
 	protected int n;
+	protected List<Double> deviations;
+	protected List<Double> squaredDeviations;
+	protected double sumOfSquaredDeviations;
 	public Variable() {
 		scores = new ArrayList<Double>();
+		deviations = new ArrayList<Double>();
+		squaredDeviations = new ArrayList<Double>(); 
 		initFrequencyMap();
 	}
-	public void addScore(double d) {
-		scores.add(d);
+	public void addScore(double score) {
+		addScore(scores.size(), score);  
+	}
+	public void addScore(int index, double score)
+	{
+		scores.add(index, score);
+	}
+	public void deleteScore(int index)
+	{
+		scores.remove(index); 
+	}
+	public void replaceScore(int index, double score)
+	{
+		deleteScore(index);
+		addScore(index, score); 
 	}
 
-	public List getScores() {
+	public List<Double> getScores() {
 		return scores;
 	}
 	public int getN()
@@ -40,12 +57,39 @@ public class Variable
 	{
 		frequencies = new HashMap<Double, Integer>();
 	}
+	//TODO only calculate if we have changed state since last calculation
 	protected void calculate()
 	{
 		buildFrequencyMap(); 
 		calculateN(); 
-		calculateSum();
-		calculateMean(); 
+		calculateSumOfScores();
+		calculateMean();
+		calculateDeviations(); 
+		calculateSquaredDeviations(); 
+		calculateSumOfSquaredDeviations();
+		
+	}
+	protected void calculateDeviations()
+	{
+		for (Double score : scores)
+		{
+			deviations.add(score - mean); 
+		}
+	}
+	private void calculateSquaredDeviations()
+	{
+		for (Double deviation: deviations)
+		{
+			squaredDeviations.add(deviation*deviation); 
+		}
+	}
+	private void calculateSumOfSquaredDeviations()
+	{
+		sumOfSquaredDeviations = 0; 
+		for (double squaredDeviation : squaredDeviations)
+		{
+			sumOfSquaredDeviations+=squaredDeviation; 
+		}
 	}
 	protected void calculateN()
 	{
@@ -73,17 +117,17 @@ public class Variable
 	public String getName() {
 		return name;
 	}
-	public double getSum()
+	public double getSumOfScores()
 	{
 		calculate(); 
-		return sum;
+		return sumOfScores;
 	}
-	protected void calculateSum()
+	protected void calculateSumOfScores()
 	{
-		sum = 0; 
+		sumOfScores = 0; 
 		for (double score : scores)
 		{
-			sum+=score; 
+			sumOfScores+=score; 
 		}
 	}
 	protected void calculateMean()
@@ -91,7 +135,7 @@ public class Variable
 		mean = 0; 
 		if (n > 0)
 		{
-			mean = sum / ((double) n); 
+			mean = sumOfScores / ((double) n); 
 		}
 	}
 	public double getMean()
@@ -99,5 +143,19 @@ public class Variable
 		calculate(); 
 		return mean;
 	}
-	
+	public List<Double> getDeviations()
+	{
+		calculate();
+		return deviations;
+	}
+	public List<Double> getSquaredDeviations()
+	{
+		calculate(); 
+		return squaredDeviations;
+	}
+	public double getSumOfSquaredDeviations()
+	{
+		calculate(); 
+		return sumOfSquaredDeviations;
+	}
 }

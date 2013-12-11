@@ -11,7 +11,6 @@ public class AbstractCommandTest
 {
 	private Variable variable;
 	private Command command;
-	private TestingSubCommand subCommand;
 	@Before
 	public void setUp() throws Exception
 	{
@@ -54,7 +53,7 @@ public class AbstractCommandTest
 			super.execute(); 
 		}
 		@Override
-		public double getResult(){return 0;}
+		public Double getResult(){return 0d;}
 		@Override
 		protected void buildSubcommands()
 		{
@@ -64,10 +63,10 @@ public class AbstractCommandTest
 	}
 	private class TestingSubCommand extends AbstractCommand
 	{
-		private int order;
-		public TestingSubCommand(Variable variable, int order)
+		private double order;
+		public TestingSubCommand(Variable variable, double order)
 		{
-			super(variable, "This is a subcommand", ".", false);
+			super(null, variable, "This is a subcommand", ".", false);
 			this.order = order; 
 		}
 		@Override
@@ -76,6 +75,6 @@ public class AbstractCommandTest
 			super.execute();
 		}
 		@Override
-		public double getResult(){return order;}
+		public Double getResult(){return order;}
 	}
 }

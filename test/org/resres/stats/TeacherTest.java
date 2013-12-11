@@ -12,6 +12,7 @@ public class TeacherTest
 	private Teacher teacher;
 	private Command command1;
 	private Command command2;
+	private Command command3;
 
 	@Before
 	public void setUp() throws Exception
@@ -21,49 +22,52 @@ public class TeacherTest
 		variable = new Variable(); 
 		variable.setName("X"); 
 	}
-	protected void addTwoExplicitCommands()
-	{
-		command1 = new AddScoreCommand(teacher, variable, 1.2, true); 
-		command1.execute(); 
-		command2 = new NCommand(teacher, variable, true); 
-		command2.execute();
-	}
 	@Test
-	public void verifyTeacherRemembersCommandsInOrderTheyWereIssued() throws Exception
+	public void verifyTeacherExplainsCommandsInOrderTheyWereIssued() throws Exception
 	{
-		addTwoExplicitCommands(); 
-		assertEquals(command2.explain(), teacher.explainLastCommand()); 
-		assertEquals(command1.explain(), teacher.explainLastCommand()); 
-		assertEquals("No earlier commands to explain.", teacher.explainLastCommand()); 
+		//TODO consider flows:  "explain last thing you did"; "go back n steps, explain from there"; explain last step in detail" 
+		addThreeExplicitCommands(); 
+		assertEquals(command3.explain(), teacher.explainPreviousCommand()); 
+		assertEquals(command2.explain(), teacher.explainPreviousCommand()); 
+		assertEquals(command1.explain(), teacher.explainPreviousCommand()); 
+		assertEquals("No earlier commands to explain.", teacher.explainPreviousCommand()); 
+		assertEquals(command1.explain(), teacher.explainNextCommand()); 
 	}
 	@Test
 	public void verifyTeacherOnlyReturnsExplicitlyInvokedCommandsByDefault() throws Exception
 	{
 		addThreeExplicitCommands(); 
-		assertTrue(teacher.getLastCommand() instanceof MeanCommand);  
-		assertTrue(teacher.getLastCommand() instanceof AddScoreCommand);  
-		assertTrue(teacher.getLastCommand() instanceof AddScoreCommand);  
-		assertNull(teacher.getLastCommand()); 
-	}
-	protected void addThreeExplicitCommands()
-	{
-		Command command = new AddScoreCommand(teacher, variable, 1.2, true); 
-		command.execute(); 
-		command = new AddScoreCommand(teacher, variable, 1.0, true); 
-		command.execute(); 
-		command = new MeanCommand(teacher, variable, true); 
-		command.execute();
+		assertTrue(teacher.getPreviousCommand() instanceof MeanCommand);  
+		assertTrue(teacher.getPreviousCommand() instanceof AddScoreCommand);  
+		assertTrue(teacher.getPreviousCommand() instanceof AddScoreCommand);  
+		assertNull(teacher.getPreviousCommand()); 
 	}
 	@Test
 	public void verifyTeacherReturnsDetailedCommandsOnRequest() throws Exception
 	{
 		addThreeExplicitCommands(); 
-		assertTrue(teacher.getLastDetailedCommand() instanceof MeanCommand);  
-		assertTrue(teacher.getLastDetailedCommand() instanceof SumCommand);  
-		assertTrue(teacher.getLastDetailedCommand() instanceof NCommand);  
-		assertTrue(teacher.getLastDetailedCommand() instanceof AddScoreCommand);  
-		assertTrue(teacher.getLastDetailedCommand() instanceof AddScoreCommand);  
-		assertNull(teacher.getLastDetailedCommand()); 
-		
+		assertTrue(teacher.getPreviousDetailedCommand() instanceof MeanCommand);  
+		assertTrue(teacher.getPreviousDetailedCommand() instanceof SumOfScoresCommand);  
+		assertTrue(teacher.getPreviousDetailedCommand() instanceof NCommand);  
+		assertTrue(teacher.getPreviousDetailedCommand() instanceof AddScoreCommand);  
+		assertTrue(teacher.getPreviousDetailedCommand() instanceof AddScoreCommand);  
+		assertNull(teacher.getPreviousDetailedCommand()); 
+	}
+	@Test
+	public void verifyCommandsCanBeReplayedForwardsAndBackwards() throws Exception
+	{
+		addThreeExplicitCommands(); 
+		assertNull(teacher.getNextCommand()); 
+		assertTrue(teacher.getPreviousCommand() instanceof MeanCommand);  
+		assertTrue(teacher.getNextCommand() instanceof MeanCommand);  
+	}
+	protected void addThreeExplicitCommands()
+	{
+		command1 = new AddScoreCommand(teacher, variable, 1.2, 0, true); 
+		command1.execute(); 
+		command2 = new AddScoreCommand(teacher, variable, 1.0, 1, true); 
+		command2.execute(); 
+		command3 = new MeanCommand(teacher, variable, true); 
+		command3.execute();
 	}
 }

@@ -19,7 +19,7 @@ public class MeanCommandTest
 		variable.setName("X"); 
 		variable.addScore(1.2); 
 		variable.addScore(1.0); 
-		command = new MeanCommand(variable, true); 
+		command = new MeanCommand(null, variable, true); 
 	}
 	@Test
 	public void verifyCommandInvokesMeanOnTargetVariable() throws Exception
@@ -31,6 +31,7 @@ public class MeanCommandTest
 	@Test
 	public void verifyCommandRetrievesResult() throws Exception
 	{
+		assertNull(command.getResult()); 
 		command.execute(); 
 		assertEquals(1.1, command.getResult(), .001); 
 	}
@@ -39,7 +40,7 @@ public class MeanCommandTest
 	{
 		List<Command> subcommands = command.getSubcommands(); 
 		assertTrue(subcommands.get(0) instanceof NCommand); 
-		assertTrue(subcommands.get(1) instanceof SumCommand); 
+		assertTrue(subcommands.get(1) instanceof SumOfScoresCommand); 
 		assertEquals(2, subcommands.size()); 
 	}
 	

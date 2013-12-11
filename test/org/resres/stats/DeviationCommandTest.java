@@ -5,8 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AddScoreCommandTest
+public class DeviationCommandTest
 {
+
 	private Variable variable;
 	private Command command;
 	@Before
@@ -14,21 +15,23 @@ public class AddScoreCommandTest
 	{
 		variable = new Variable(); 	
 		variable.setName("X"); 
-		command = new AddScoreCommand(null, variable, 1.2, 0, true); 
+		variable.addScore(1.2); 
+		variable.addScore(1.0); 
+		command = new DeviationCommand(null, variable, 0, true); 
 	}
 	@Test
-	public void verifyCommandInvokesAddScoreOnTargetVariable() throws Exception
+	public void verifyCommandRetrievesCorrespondingDeviationFromTargetVariable() throws Exception
 	{
-		assertEquals(0, variable.getFrequency(1.2));
+		assertEquals(0, variable.deviations.size()); 
 		command.execute(); 
-		assertEquals(1, variable.getFrequency(1.2));
+		assertEquals(0.1, variable.deviations.get(0), .001);
 	}
 	@Test
 	public void verifyCommandRetrievesScoreValueJustAddedAsResult() throws Exception
 	{
 		assertNull("null prior to execution", command.getResult()); 
 		command.execute(); 
-		assertEquals("score commands just return value of this score",1.2, command.getResult(), .001); 
+		assertEquals(0.1, command.getResult(), .001); 
 	}
 
 }

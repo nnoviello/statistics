@@ -9,7 +9,12 @@ public interface Command
 
 	public String explain();
 
-	public double getResult();
+	/**
+	 * Returns null prior to execution of the command.  
+	 * Once the command has been executed, value of result is defined by implementing Commands.s
+	 * @return
+	 */
+	public Double getResult();
 
 	public List<Command> getSubcommands();
 

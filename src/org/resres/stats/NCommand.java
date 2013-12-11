@@ -9,11 +9,6 @@ public class NCommand extends AbstractCommand implements Command
 	{
 		super(teacher, variable, EXPLANATION, RESULT, invoked); 
 	}
-	public NCommand(Variable variable, boolean invoked)
-	{
-		this(null, variable, invoked);
-	}
-
 	@Override
 	public void execute()
 	{
@@ -22,9 +17,9 @@ public class NCommand extends AbstractCommand implements Command
 	}
 
 	@Override
-	public double getResult()
+	public Double getResult()
 	{
-		return (double) variable.getN();
+		return (executed) ? (double) variable.getN() : null;
 	}
 
 }
