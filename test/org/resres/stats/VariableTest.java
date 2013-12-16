@@ -135,4 +135,23 @@ public class VariableTest {
 		assertEquals(1.1, variable.getMean(), .001); 
 		assertEquals(2,variable.getScores().size()); 
 	}
+	@Test
+	public void verifyEquals() throws Exception
+	{
+		variable.setName("X"); 
+		variable.addScore(0, 1.0); 
+		variable.addScore(1, 1.1); 
+		variable.addScore(2, 1.2);
+		Variable variable2 = new Variable(); 
+		assertTrue(!variable.equals(variable2)); 
+		variable2.setName("X"); 
+		assertTrue(!variable.equals(variable2)); 
+		variable2.addScore(0, 1.0); 
+		variable2.addScore(1, 1.1); 
+		assertTrue(!variable.equals(variable2)); 
+		variable2.addScore(2, 1.3);
+		assertTrue(!variable.equals(variable2)); 
+		variable2.replaceScore(2, 1.2);
+		assertTrue("finally...",variable.equals(variable2)); 
+	}
 }

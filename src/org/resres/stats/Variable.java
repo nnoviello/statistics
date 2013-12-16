@@ -158,4 +158,18 @@ public class Variable
 		calculate(); 
 		return sumOfSquaredDeviations;
 	}
+	@Override
+	public boolean equals(Object arg)
+	{
+		if (arg == null) return false;
+		if (this.getClass() != arg.getClass()) return false;
+		Variable otherVariable = (Variable) arg; 
+		if (!this.name.equals(otherVariable.name)) return false; 
+		if (this.scores.size() != otherVariable.scores.size()) return false;
+		for (int i = 0; i < this.scores.size(); i++)
+		{
+			if (!this.scores.get(i).equals(otherVariable.scores.get(i))) return false;
+		}
+		return true; 
+	}
 }
