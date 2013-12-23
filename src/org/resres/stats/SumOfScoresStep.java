@@ -1,12 +1,12 @@
 package org.resres.stats;
 
-public class SumOfScoresCommand extends AbstractCommand implements Command
+public class SumOfScoresStep extends AbstractStep implements Step
 {
 
 	private static final String EXPLANATION = "Add all the scores of variable ";
 	private static final String RESULT = ", giving the sum of scores.";
 
-	public SumOfScoresCommand(Teacher teacher, Variable variable, boolean invoked)
+	public SumOfScoresStep(Teacher teacher, Variable variable, boolean invoked)
 	{
 		super(teacher, variable, EXPLANATION, RESULT, invoked); 
 	}

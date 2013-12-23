@@ -1,12 +1,12 @@
 package org.resres.stats;
 
-public class MeanCommand extends AbstractCommand implements Command
+public class MeanStep extends AbstractStep implements Step
 {
 
 	private static final String EXPLANATION = "Divide sum of scores by n of ";
 	private static final String RESULT = ", giving the mean.";
 
-	public MeanCommand(Teacher teacher, Variable variable, boolean invoked)
+	public MeanStep(Teacher teacher, Variable variable, boolean invoked)
 	{
 		super(teacher, variable, EXPLANATION, RESULT, invoked); 
 	}
@@ -23,9 +23,9 @@ public class MeanCommand extends AbstractCommand implements Command
 		return (executed) ? variable.getMean() : null;
 	}
 	@Override
-	protected void buildSubcommands()
+	protected void buildLittleSteps()
 	{
-		subcommands.add(new NCommand(teacher, variable, false)); 
-		subcommands.add(new SumOfScoresCommand(teacher, variable, false)); 
+		littleSteps.add(new NStep(teacher, variable, false)); 
+		littleSteps.add(new SumOfScoresStep(teacher, variable, false)); 
 	}
 }

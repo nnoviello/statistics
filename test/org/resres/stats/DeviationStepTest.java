@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DeviationCommandTest
+public class DeviationStepTest
 {
 
 	private Variable variable;
-	private Command command;
+	private Step step;
 	@Before
 	public void setUp() throws Exception
 	{
@@ -17,21 +17,21 @@ public class DeviationCommandTest
 		variable.setName("X"); 
 		variable.addScore(1.2); 
 		variable.addScore(1.0); 
-		command = new DeviationCommand(null, variable, 0, true); 
+		step = new DeviationStep(null, variable, 0, true); 
 	}
 	@Test
 	public void verifyCommandRetrievesCorrespondingDeviationFromTargetVariable() throws Exception
 	{
 		assertEquals(0, variable.deviations.size()); 
-		command.execute(); 
+		step.execute(); 
 		assertEquals(0.1, variable.deviations.get(0), .001);
 	}
 	@Test
 	public void verifyCommandRetrievesScoreValueJustAddedAsResult() throws Exception
 	{
-		assertNull("null prior to execution", command.getResult()); 
-		command.execute(); 
-		assertEquals(0.1, command.getResult(), .001); 
+		assertNull("null prior to execution", step.getResult()); 
+		step.execute(); 
+		assertEquals(0.1, step.getResult(), .001); 
 	}
 
 }

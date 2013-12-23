@@ -1,10 +1,10 @@
 package org.resres.stats;
 
-public class ReplaceScoreCommand extends ScoreCommand implements Command
+public class ReplaceScoreStep extends ScoreStep implements Step
 {
 	private static final String EXPLANATION ="Add a score to variable ";
 
-	public ReplaceScoreCommand(Teacher teacher, Variable variable, double score,
+	public ReplaceScoreStep(Teacher teacher, Variable variable, double score,
 			int index, boolean invoked)
 	{
 		super(teacher, variable, EXPLANATION, RESULT, invoked, score, index);

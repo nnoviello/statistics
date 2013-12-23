@@ -1,11 +1,11 @@
 package org.resres.stats;
 
-public class NCommand extends AbstractCommand implements Command
+public class NStep extends AbstractStep implements Step
 {
 	private static final String EXPLANATION ="Count the number of scores of ";
 	private static final String RESULT = ", giving n.";
 
-	public NCommand(Teacher teacher, Variable variable, boolean invoked)
+	public NStep(Teacher teacher, Variable variable, boolean invoked)
 	{
 		super(teacher, variable, EXPLANATION, RESULT, invoked); 
 	}

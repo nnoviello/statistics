@@ -1,14 +1,14 @@
 package org.resres.stats;
 
 
-public class DeviationCommand extends AbstractCommand implements Command
+public class DeviationStep extends AbstractStep implements Step
 {
 	private static final String EXPLANATION ="Subtract the mean from a score on variable ";
 	private static final String RESULT =", giving the deviation for that score.";
 	private int index;
 	private Double deviation;
 
-	public DeviationCommand(Teacher teacher, Variable variable, int index, boolean invoked)
+	public DeviationStep(Teacher teacher, Variable variable, int index, boolean invoked)
 	{
 		super(teacher, variable, EXPLANATION, RESULT, invoked); 
 		this.index = index; 

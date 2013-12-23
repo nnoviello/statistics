@@ -1,13 +1,13 @@
 package org.resres.stats;
 
-public class SquaredDeviationCommand extends AbstractCommand implements Command
+public class SquaredDeviationStep extends AbstractStep implements Step
 {
 	private static final String EXPLANATION ="Square the deviation for a score on variable ";
 	private static final String RESULT =", giving the squared deviation for that score.";
 	private int index;
 	private Double squaredDeviation;
 
-	public SquaredDeviationCommand(Teacher teacher, Variable variable, int index,
+	public SquaredDeviationStep(Teacher teacher, Variable variable, int index,
 			boolean invoked)
 	{
 		super(teacher, variable, EXPLANATION, RESULT, invoked); 

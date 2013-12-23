@@ -6,83 +6,83 @@ import java.util.Stack;
 
 public class Teacher implements Observer
 {
-	private static final String NO_EARLIER_COMMANDS_TO_EXPLAIN = "No earlier commands to explain.";
-	private static final String NO_LATER_COMMANDS_TO_EXPLAIN = "No later commands to explain.";
-	private Stack<Command> previousCommands;
-	private Stack<Command> nextCommands;
+	private static final String NO_EARLIER_STEPS_TO_EXPLAIN = "No earlier steps to explain.";
+	private static final String NO_LATER_STEPS_TO_EXPLAIN = "No later steps to explain.";
+	private Stack<Step> previousSteps;
+	private Stack<Step> nextSteps;
 	public Teacher()
 	{
-		previousCommands = new Stack<Command>(); 
-		nextCommands = new Stack<Command>(); 
+		previousSteps = new Stack<Step>(); 
+		nextSteps = new Stack<Step>(); 
 	}
-	public String explainPreviousCommand()
+	public String explainPreviousStep()
 	{
-		return explainCommand(true); 
+		return explainStep(true); 
 	}
-	public String explainNextCommand()
+	public String explainNextStep()
 	{
-		return explainCommand(false); 
+		return explainStep(false); 
 	}
 	//TODO test update with nextCommands
 	@Override
-	public void update(Observable objCommand, Object unused)
+	public void update(Observable objStep, Object unused)
 	{
-		previousCommands.push((Command) objCommand);  
+		previousSteps.push((Step) objStep);  
 	}
-	public Command getPreviousCommand()
+	public Step getPreviousStep()
 	{
-		return getCommand(true); 
+		return getStep(true); 
 	}
-	public Command getPreviousDetailedCommand()
+	public Step getPreviousDetailedStep()
+	{ //TODO consider getPreviousLittleStep
+		return getDetailedStep(true); 
+	}
+	public Step getNextStep()
 	{
-		return getDetailedCommand(true); 
+		return getStep(false); 
 	}
-	public Command getNextCommand()
+	public Step getNextDetailedStep()
 	{
-		return getCommand(false); 
+		return getDetailedStep(false); 
 	}
-	public Command getNextDetailedCommand()
-	{
-		return getDetailedCommand(false); 
-	}
-	private String explainCommand(boolean backward)
+	private String explainStep(boolean backward)
 	{
 		String explanation = null;
-		Command command = getCommand(backward); 
-		if (command == null)
+		Step step = getStep(backward); 
+		if (step == null)
 		{
-			explanation = (backward) ? NO_EARLIER_COMMANDS_TO_EXPLAIN : NO_LATER_COMMANDS_TO_EXPLAIN; 
+			explanation = (backward) ? NO_EARLIER_STEPS_TO_EXPLAIN : NO_LATER_STEPS_TO_EXPLAIN; 
 		}
-		else explanation = command.explain(); 
+		else explanation = step.explain(); 
 		return explanation; 
 	}
 	
-	private Command getDetailedCommand(boolean backward)
+	private Step getDetailedStep(boolean backward)
 	{
-		Command command = null; 
+		Step step = null; 
 		if (backward)
 		{
-			command = shiftOneCommand(previousCommands, nextCommands); 
+			step = shiftOneStep(previousSteps, nextSteps); 
 		}
-		else command = shiftOneCommand(nextCommands, previousCommands);
-		return command;
+		else step = shiftOneStep(nextSteps, previousSteps);
+		return step;
 	}
-	private Command shiftOneCommand(Stack<Command> fromCommands,
-			Stack<Command> toCommands)
+	private Step shiftOneStep(Stack<Step> fromSteps,
+			Stack<Step> toSteps)
 	{
-		if (fromCommands.empty()) return null; 
-		Command command = fromCommands.pop(); 
-		toCommands.push(command); 
-		return command;
+		if (fromSteps.empty()) return null; 
+		Step step = fromSteps.pop(); 
+		toSteps.push(step); 
+		return step;
 	}
-	private Command getCommand(boolean backward)
+	private Step getStep(boolean backward)
 	{
-		Command command = getDetailedCommand(backward);
-		while ((command != null) && 
-				(!command.explicitlyInvoked()))
+		Step step = getDetailedStep(backward);
+		while ((step != null) && 
+				(!step.explicitlyInvoked()))
 		{
-			command = getDetailedCommand(backward);
+			step = getDetailedStep(backward);
 		}
-		return command;
+		return step;
 	}
 }

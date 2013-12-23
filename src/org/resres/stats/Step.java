@@ -2,7 +2,7 @@ package org.resres.stats;
 
 import java.util.List;
 
-public interface Command
+public interface Step
 {
 
 	public void execute();
@@ -16,7 +16,7 @@ public interface Command
 	 */
 	public Double getResult();
 
-	public List<Command> getSubcommands();
+	public List<Step> getLittleSteps();
 
 	public boolean explicitlyInvoked();
 

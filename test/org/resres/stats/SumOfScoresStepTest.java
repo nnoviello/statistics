@@ -5,11 +5,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SumOfScoresCommandTest
+public class SumOfScoresStepTest
 {
 
 	private Variable variable;
-	private Command command;
+	private Step step;
 	@Before
 	public void setUp() throws Exception
 	{
@@ -17,25 +17,25 @@ public class SumOfScoresCommandTest
 		variable.setName("X"); 
 		variable.addScore(1.2); 
 		variable.addScore(1.0); 
-		command = new SumOfScoresCommand(null, variable, true); 
+		step = new SumOfScoresStep(null, variable, true); 
 	}
 	@Test
-	public void verifyCommandInvokesSumOnTargetVariable() throws Exception
+	public void verifyStepInvokesSumOnTargetVariable() throws Exception
 	{
 		assertEquals(0, variable.sumOfScores, .001);
-		command.execute(); 
+		step.execute(); 
 		assertEquals(2.2, variable.sumOfScores, .001);
 	}
 	@Test
-	public void verifyCommandRetrievesResult() throws Exception
+	public void verifyStepRetrievesResult() throws Exception
 	{
-		assertNull(command.getResult()); 
-		command.execute(); 
-		assertEquals(2.2, command.getResult(), .001); 
+		assertNull(step.getResult()); 
+		step.execute(); 
+		assertEquals(2.2, step.getResult(), .001); 
 	}
 	@Test(expected=IllegalArgumentException.class)
 	public void verifyThrowsIfInitializedWithNull() throws Exception
 	{
-		command = new SumOfScoresCommand(null, null, true); 
+		step = new SumOfScoresStep(null, null, true); 
 	}
 }
