@@ -33,17 +33,17 @@ public class Teacher implements Observer
 	{
 		return getStep(true); 
 	}
-	public Step getPreviousDetailedStep()
-	{ //TODO consider getPreviousLittleStep
-		return getDetailedStep(true); 
+	public Step getPreviousLittleStep()
+	{ 
+		return getLittleStep(true); 
 	}
 	public Step getNextStep()
 	{
 		return getStep(false); 
 	}
-	public Step getNextDetailedStep()
+	public Step getNextLittleStep()
 	{
-		return getDetailedStep(false); 
+		return getLittleStep(false); 
 	}
 	private String explainStep(boolean backward)
 	{
@@ -57,7 +57,7 @@ public class Teacher implements Observer
 		return explanation; 
 	}
 	
-	private Step getDetailedStep(boolean backward)
+	private Step getLittleStep(boolean backward)
 	{
 		Step step = null; 
 		if (backward)
@@ -77,11 +77,11 @@ public class Teacher implements Observer
 	}
 	private Step getStep(boolean backward)
 	{
-		Step step = getDetailedStep(backward);
+		Step step = getLittleStep(backward);
 		while ((step != null) && 
 				(!step.explicitlyInvoked()))
 		{
-			step = getDetailedStep(backward);
+			step = getLittleStep(backward);
 		}
 		return step;
 	}

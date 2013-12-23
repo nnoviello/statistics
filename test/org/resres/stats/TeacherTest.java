@@ -46,12 +46,12 @@ public class TeacherTest
 	public void verifyTeacherReturnsDetailedStepsOnRequest() throws Exception
 	{
 		addThreeExplicitSteps(); 
-		assertTrue(teacher.getPreviousDetailedStep() instanceof MeanStep);  
-		assertTrue(teacher.getPreviousDetailedStep() instanceof SumOfScoresStep);  
-		assertTrue(teacher.getPreviousDetailedStep() instanceof NStep);  
-		assertTrue(teacher.getPreviousDetailedStep() instanceof AddScoreStep);  
-		assertTrue(teacher.getPreviousDetailedStep() instanceof AddScoreStep);  
-		assertNull(teacher.getPreviousDetailedStep()); 
+		assertTrue(teacher.getPreviousLittleStep() instanceof MeanStep);  
+		assertTrue(teacher.getPreviousLittleStep() instanceof SumOfScoresStep);  
+		assertTrue(teacher.getPreviousLittleStep() instanceof NStep);  
+		assertTrue(teacher.getPreviousLittleStep() instanceof AddScoreStep);  
+		assertTrue(teacher.getPreviousLittleStep() instanceof AddScoreStep);  
+		assertNull(teacher.getPreviousLittleStep()); 
 	}
 	@Test
 	public void verifyStepsCanBeReplayedForwardsAndBackwards() throws Exception
