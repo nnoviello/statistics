@@ -154,4 +154,49 @@ public class VariableTest {
 		variable2.replaceScore(2, 1.2);
 		assertTrue("finally...",variable.equals(variable2)); 
 	}
+	@Test
+	public void verifyCalculationRequiredIffListOfScoresHasChanged() throws Exception
+	{	
+		assertTrue("without scores, some trivial stats available",variable.hasReadyStatistics()); 
+		variable.addScore(1.2); 
+		assertFalse("as scores are added, stats not available",variable.hasReadyStatistics()); 
+		variable.calculate(); 
+		assertTrue("stats now available",variable.hasReadyStatistics()); 
+		variable.replaceScore(0, 2.0); 
+		assertFalse("replace -> stats not available",variable.hasReadyStatistics()); 
+		variable.deleteScore(0); 
+		assertFalse("delete -> stats not available",variable.hasReadyStatistics()); 
+	}
+	@Test
+	public void verifyInvocationOfAnyStatsMethodTriggersCalculationAndMakesStatsReady() throws Exception
+	{
+		variable.addScore(1.2); 
+		variable.getN(); 
+		assertTrue("stats now available",variable.hasReadyStatistics()); 
+		variable.addScore(1.3);
+		variable.getMean(); 
+		assertTrue(variable.hasReadyStatistics()); 
+		variable.addScore(1.3);
+		variable.getDeviations(); 
+		assertTrue(variable.hasReadyStatistics()); 
+		variable.addScore(1.3);
+		variable.getFrequency(1.3);
+		assertTrue(variable.hasReadyStatistics()); 
+		variable.addScore(1.3);
+		variable.getSquaredDeviations();
+		assertTrue(variable.hasReadyStatistics()); 
+		variable.addScore(1.3);
+		variable.getSumOfScores();
+		assertTrue(variable.hasReadyStatistics()); 
+		variable.addScore(1.3);
+		variable.getSumOfSquaredDeviations();
+		assertTrue(variable.hasReadyStatistics()); 
+
+		variable.addScore(1.3);
+		variable.getName();
+		assertFalse("but Name is not a stat; stats not calculated",variable.hasReadyStatistics()); 
+		variable.addScore(1.3);
+		variable.getScores();
+		assertFalse("Scores is just a list; stats not calculated ",variable.hasReadyStatistics()); 
+	}
 }

@@ -17,11 +17,13 @@ public class Variable
 	protected List<Double> deviations;
 	protected List<Double> squaredDeviations;
 	protected double sumOfSquaredDeviations;
+	private boolean readyStatistics;
 	public Variable() {
 		scores = new ArrayList<Double>();
 		deviations = new ArrayList<Double>();
 		squaredDeviations = new ArrayList<Double>(); 
 		initFrequencyMap();
+		readyStatistics = true; 
 	}
 	public void addScore(double score) {
 		addScore(scores.size(), score);  
@@ -29,10 +31,12 @@ public class Variable
 	public void addScore(int index, double score)
 	{
 		scores.add(index, score);
+		readyStatistics = false; 
 	}
 	public void deleteScore(int index)
 	{
 		scores.remove(index); 
+		readyStatistics = false; 
 	}
 	public void replaceScore(int index, double score)
 	{
@@ -57,17 +61,19 @@ public class Variable
 	{
 		frequencies = new HashMap<Double, Integer>();
 	}
-	//TODO only calculate if we have changed state since last calculation
 	protected void calculate()
 	{
-		buildFrequencyMap(); 
-		calculateN(); 
-		calculateSumOfScores();
-		calculateMean();
-		calculateDeviations(); 
-		calculateSquaredDeviations(); 
-		calculateSumOfSquaredDeviations();
-		
+		if (!readyStatistics)
+		{
+			buildFrequencyMap(); 
+			calculateN(); 
+			calculateSumOfScores();
+			calculateMean();
+			calculateDeviations(); 
+			calculateSquaredDeviations(); 
+			calculateSumOfSquaredDeviations();
+		}
+		readyStatistics = true; 
 	}
 	protected void calculateDeviations()
 	{
@@ -171,5 +177,9 @@ public class Variable
 			if (!this.scores.get(i).equals(otherVariable.scores.get(i))) return false;
 		}
 		return true; 
+	}
+	public boolean hasReadyStatistics()
+	{
+		return readyStatistics;
 	}
 }
