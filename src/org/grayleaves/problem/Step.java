@@ -1,4 +1,4 @@
-package org.resres.stats;
+package org.grayleaves.problem;
 
 import java.util.List;
 

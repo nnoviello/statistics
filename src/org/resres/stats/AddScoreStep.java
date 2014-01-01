@@ -1,5 +1,8 @@
 package org.resres.stats;
 
+import org.grayleaves.problem.Step;
+import org.grayleaves.problem.Teacher;
+
 public class AddScoreStep extends ScoreStep implements Step
 {
 	private static final String EXPLANATION ="Add a score to variable ";

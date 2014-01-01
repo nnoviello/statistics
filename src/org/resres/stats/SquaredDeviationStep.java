@@ -1,5 +1,8 @@
 package org.resres.stats;
 
+import org.grayleaves.problem.Step;
+import org.grayleaves.problem.Teacher;
+
 public class SquaredDeviationStep extends AbstractStep implements Step
 {
 	private static final String EXPLANATION ="Square the deviation for a score on variable ";

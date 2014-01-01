@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.grayleaves.problem.Step;
 import org.junit.Before;
 import org.junit.Test;
 

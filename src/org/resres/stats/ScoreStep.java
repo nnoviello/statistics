@@ -1,5 +1,7 @@
 package org.resres.stats;
 
+import org.grayleaves.problem.Teacher;
+
 public class ScoreStep extends AbstractStep
 {
 

@@ -1,5 +1,8 @@
 package org.resres.stats;
 
+import org.grayleaves.problem.Step;
+import org.grayleaves.problem.Teacher;
+
 public class SumOfScoresStep extends AbstractStep implements Step
 {
 

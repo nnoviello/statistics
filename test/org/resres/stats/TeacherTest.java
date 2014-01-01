@@ -2,6 +2,8 @@ package org.resres.stats;
 
 import static org.junit.Assert.*;
 
+import org.grayleaves.problem.Step;
+import org.grayleaves.problem.Teacher;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,6 +62,12 @@ public class TeacherTest
 		assertNull(teacher.getNextStep()); 
 		assertTrue(teacher.getPreviousStep() instanceof MeanStep);  
 		assertTrue(teacher.getNextStep() instanceof MeanStep);  
+	}
+	@Test
+	public void verifyTeacherHasProblem() throws Exception
+	{
+//		Problem problem = new TestingProblem(); 
+//		teacher.addProblem()
 	}
 	protected void addThreeExplicitSteps()
 	{

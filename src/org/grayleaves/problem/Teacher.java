@@ -1,8 +1,9 @@
-package org.resres.stats;
+package org.grayleaves.problem;
 
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
+
 
 public class Teacher implements Observer
 {

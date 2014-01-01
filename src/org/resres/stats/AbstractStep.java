@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import org.grayleaves.problem.Step;
+import org.grayleaves.problem.Teacher;
+
 public abstract class AbstractStep extends Observable implements Step
 {
 	//TODO Move messages to a property file

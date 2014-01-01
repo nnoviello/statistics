@@ -1,5 +1,8 @@
 package org.resres.stats;
 
+import org.grayleaves.problem.Step;
+import org.grayleaves.problem.Teacher;
+
 public class NStep extends AbstractStep implements Step
 {
 	private static final String EXPLANATION ="Count the number of scores of ";

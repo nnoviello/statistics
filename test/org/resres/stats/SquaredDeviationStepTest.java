@@ -2,6 +2,7 @@ package org.resres.stats;
 
 import static org.junit.Assert.*;
 
+import org.grayleaves.problem.Step;
 import org.junit.Before;
 import org.junit.Test;
 
