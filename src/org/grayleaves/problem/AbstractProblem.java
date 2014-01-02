@@ -10,16 +10,27 @@ public abstract class AbstractProblem implements Problem
 {
 	public static final String DUPLICATE_STEP_SEQUENCE = "AbstractProblem.addStepSequence:  Duplicate step sequence for ";
 	public static final String DUPLICATE_STEP_SEQUENCE_CONTINUATION = ".  Use StepSequence(stepEnum, suffix) to create unique step sequences.";
+	public static final String MISMATCHED_UPDATE_STEP_FROM_INPUT = "AbstractProblem.buildStepEnum:  No StepEnum found for Update.getUpdateStep():  ";
+	public static final String MISMATCHED_UPDATE_POSSIBLE_CAUSES = "\nPossible causes:  Misspelling, or addStepMapEntry(StepEnum) not invoked in problem constructor.";
+	public static final String MISMATCHED_STEP_SEQUENCE_ID_POSSIBLE_CAUSES = "\nPossible causes:  Misspelling, or addStepSequence(StepSequence) not previously invoked.";
+	public static final String MISMATCHED_STEP_SEQUENCE_ID_FROM_INPUT = "AbstractProblem.buildStepSequence:  No StepSequence found for Update.getStepSequenceId():  ";
 
 	private List<StepSequence> stepSequences;
 	private Map<String, StepSequence> mapStepSequences;
+	private Map<String, StepEnum> stepMap;
 	
 	public AbstractProblem()
 	{
 		stepSequences = new ArrayList<StepSequence>();  
 		mapStepSequences = new HashMap<String, StepSequence>();  
+		stepMap = new HashMap<String, StepEnum>(); 
 	}
-	
+	@Override
+	public Update buildUpdate(String jsonUpdate) throws InvalidJsonUpdateException
+	{
+		JsonUpdate updater = new JsonUpdate(); 
+		return updater.getUpdate(jsonUpdate);  
+	}
 	@Override
 	public void addStepSequence(StepSequence stepSequence) throws StepException
 	{
@@ -38,5 +49,31 @@ public abstract class AbstractProblem implements Problem
 		return stepSequences.get(i);
 	}
     @Override
-    public abstract Step buildStep(String stepSequenceId);
+    public abstract Step buildStep(Update update) throws ProblemException;
+    
+    @Override
+    public StepSequence buildStepSequence(Update update) throws ProblemException
+    {
+    	StepSequence stepSequence = mapStepSequences.get(update.getStepSequenceId()); 
+    	if (stepSequence == null) throw new ProblemException(MISMATCHED_STEP_SEQUENCE_ID_FROM_INPUT+
+    			update.getStepSequenceId()+MISMATCHED_STEP_SEQUENCE_ID_POSSIBLE_CAUSES); 
+    	else return stepSequence;
+    }
+
+    public Map<String, StepEnum> getStepMap()
+	{
+		return stepMap;
+	}
+	protected void addStepMapEntry(StepEnum stepEnum)
+	{
+		getStepMap().put(stepEnum.getName(), stepEnum);
+	}
+	protected StepEnum buildStepEnum(Update update) throws ProblemException
+	{
+		StepEnum stepEnum = getStepMap().get(update.getUpdateStep());
+		if (stepEnum == null) throw new ProblemException(MISMATCHED_UPDATE_STEP_FROM_INPUT+
+				update.getUpdateStep()+MISMATCHED_UPDATE_POSSIBLE_CAUSES); 
+		else return stepEnum;
+	}
+
 }

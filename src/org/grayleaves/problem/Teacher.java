@@ -1,5 +1,7 @@
 package org.grayleaves.problem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
@@ -11,10 +13,13 @@ public class Teacher implements Observer
 	private static final String NO_LATER_STEPS_TO_EXPLAIN = "No later steps to explain.";
 	private Stack<Step> previousSteps;
 	private Stack<Step> nextSteps;
+	private Problem problem;
+	private List<Problem> problems;
 	public Teacher()
 	{
 		previousSteps = new Stack<Step>(); 
 		nextSteps = new Stack<Step>(); 
+		problems = new ArrayList<Problem>(); 
 	}
 	public String explainPreviousStep()
 	{
@@ -85,5 +90,13 @@ public class Teacher implements Observer
 			step = getLittleStep(backward);
 		}
 		return step;
+	}
+	public void addProblem(Problem problem)
+	{
+		problems.add(problem); 
+	}
+	public List<Problem> getProblems()
+	{
+		return problems;
 	}
 }

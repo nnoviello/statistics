@@ -16,14 +16,16 @@ import com.google.gson.Gson;
 
 public class ProblemTest
 {
-//	private String jsonInput = "{\"id\":0,\"htmlId\":\"field1\",\"beforeVisibility\":null,\"afterVisibility\":null,\"beforeValue\":\"value1\",\"afterValue\":\"1.2\",\"updateType\":\"addScore\",\"index\":0}";
-//	private String jsonInputArray = "{\"id\":0,\"htmlId\":\"field1\",\"beforeVisibility\":[],\"afterVisibility\":null,\"beforeValue\":\"value1\",\"afterValue\":\"1.2\",\"updateType\":\"addScore\",\"index\":0}";
-	private String jsonInput = "{\"updateClass\":\"org.resres.stats.controller.Update\",\"id\":5,\"field\":\"value1\",\"someArray\":[1,2,3],\"updateStep\":\"testingStep\"}";
+	private String jsonInput = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[1,2,9],\"updateStep\":\"testingStep\"}";
+	private String jsonInputMismatchedUpdateStep = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[1,2,9],\"updateStep\":\"testingStepMissing\"}";
+	private String jsonInputMismatchedStepSequenceId = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":99,\"field\":\"value1\",\"someArray\":[1,2,9],\"updateStep\":\"testingStep\"}";
 	private Problem problem;
+	private Teacher teacher;
 	@Before
 	public void setUp() throws Exception
 	{
-		problem = new TestingProblem(); 
+		teacher = new Teacher(); 
+		problem = new TestingProblem(teacher); 
 	}
 	@Test
 	public void verifyMultipleStepsGenerateUniqueIds() throws Exception
@@ -41,62 +43,52 @@ public class ProblemTest
 	@Test
 	public void verifyAcceptsUpdatesInJsonFormat() throws Exception
 	{
-//		TestingUpdate update = problem. 
+		TestingUpdate update = (TestingUpdate) problem.buildUpdate(jsonInput); 
+		assertTrue(update instanceof TestingUpdate); 
+		TestingUpdate testingUpdate = (TestingUpdate) update;  
+		assertEquals(5, testingUpdate.id);
 	}
-//	public void updateProblem(String jsonUpdate)
-//	{
-//	Gson gson = new Gson();
-//	StatisticsUpdate update = gson.fromJson(jsonUpdate, StatisticsUpdate.class); 
-//	double score = Double.parseDouble(update.afterValue); 
-//	Step step = StepFactory.buildStep(stepMap.get(update.updateType), null, variable, score, update.index, true); 
-//	step.execute(); 
-
 	@Test
-	public void verifyBuildStep() throws Exception
+	public void verifyBuildsStepSequenceFollowedByStep() throws Exception
 	{
-		assertTrue(problem.buildStep("testingStep") instanceof TestingStep); 
+		StepSequence stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5");  
+		problem.addStepSequence(stepSequence);
+		Update update = problem.buildUpdate(jsonInput); 
+		assertEquals(stepSequence, problem.buildStepSequence(update)); 
+		Step step = problem.buildStep(update); 
+		assertTrue(step instanceof TestingStep); 
 	}
-	private class TestingProblem extends AbstractProblem
+	@Test
+	public void verifyThrowsIfNoMatchingStepEnumForUpdateStepFromUpdate() throws Exception
 	{
-
-		@Override
-		public Step buildStep(String stepSequenceId)
+		Update update = problem.buildUpdate(jsonInputMismatchedUpdateStep); 
+		try 
 		{
-			return new TestingStep();
+			@SuppressWarnings("unused")
+			StepEnum stepEnum = ((AbstractProblem) problem).buildStepEnum(update); 
+			fail("should throw"); 
+		} 
+		catch (ProblemException e)
+		{
+			assertEquals(AbstractProblem.MISMATCHED_UPDATE_STEP_FROM_INPUT+"testingStepMissing"+AbstractProblem.MISMATCHED_UPDATE_POSSIBLE_CAUSES, e.getMessage()); 
 		}
-		
 	}
-	private class TestingStep implements Step
+	@Test
+	public void verifyThrowsIfNoMatchingStepSequenceFromUpdate() throws Exception
 	{
-
-		@Override
-		public void execute()
+		StepSequence stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5");  
+		problem.addStepSequence(stepSequence);
+		Update update = problem.buildUpdate(jsonInputMismatchedStepSequenceId); 
+		try
 		{
+			@SuppressWarnings("unused")
+			StepSequence builtStepSequence = problem.buildStepSequence(update); 
+			fail("should throw"); 
+		}
+		catch (ProblemException e)
+		{
+			assertEquals(AbstractProblem.MISMATCHED_STEP_SEQUENCE_ID_FROM_INPUT+"testingStep99"+AbstractProblem.MISMATCHED_STEP_SEQUENCE_ID_POSSIBLE_CAUSES, e.getMessage()); 
 		}
 
-		@Override
-		public String explain()
-		{
-			return null;
-		}
-
-		@Override
-		public boolean explicitlyInvoked()
-		{
-			return false;
-		}
-
-		@Override
-		public List<Step> getLittleSteps()
-		{
-			return null;
-		}
-
-		@Override
-		public Double getResult()
-		{
-			return null;
-		}
-		
 	}
 }

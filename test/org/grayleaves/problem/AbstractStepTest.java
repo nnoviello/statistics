@@ -1,4 +1,4 @@
-package org.resres.stats;
+package org.grayleaves.problem;
 
 import static org.junit.Assert.*;
 
@@ -7,6 +7,8 @@ import java.util.List;
 import org.grayleaves.problem.Step;
 import org.junit.Before;
 import org.junit.Test;
+import org.resres.stats.AbstractStep;
+import org.resres.stats.Variable;
 
 public class AbstractStepTest
 {

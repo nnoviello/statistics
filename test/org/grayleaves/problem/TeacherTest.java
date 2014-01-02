@@ -1,4 +1,4 @@
-package org.resres.stats;
+package org.grayleaves.problem;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,11 @@ import org.grayleaves.problem.Step;
 import org.grayleaves.problem.Teacher;
 import org.junit.Before;
 import org.junit.Test;
+import org.resres.stats.AddScoreStep;
+import org.resres.stats.MeanStep;
+import org.resres.stats.NStep;
+import org.resres.stats.SumOfScoresStep;
+import org.resres.stats.Variable;
 
 public class TeacherTest
 {
@@ -66,8 +71,9 @@ public class TeacherTest
 	@Test
 	public void verifyTeacherHasProblem() throws Exception
 	{
-//		Problem problem = new TestingProblem(); 
-//		teacher.addProblem()
+		Problem problem = new TestingProblem(teacher); 
+		teacher.addProblem(problem);
+		assertEquals(problem, teacher.getProblems().get(0)); 
 	}
 	protected void addThreeExplicitSteps()
 	{

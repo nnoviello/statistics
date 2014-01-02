@@ -5,6 +5,7 @@ public class StepSequence
 
 	private String id;
 	private StepEnum stepEnum;
+	private int index;
 
 	public StepSequence(StepEnum stepEnum)
 	{
@@ -25,6 +26,14 @@ public class StepSequence
 	public StepEnum getStepEnum()
 	{
 		return stepEnum;
+	}
+	public void setIndex(int index)
+	{
+		this.index = index; 
+	}
+	public int getIndex()
+	{
+		return index;
 	}
 
 }

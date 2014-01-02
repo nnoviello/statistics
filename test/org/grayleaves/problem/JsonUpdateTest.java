@@ -12,9 +12,9 @@ import org.junit.Test;
 public class JsonUpdateTest
 {
 
-	private String jsonInput = "{\"updateClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[7,8,9]}";
+	private String jsonInput = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[7,8,9]}";
 	private String jsonInputNoUpdateClass = "{\"id\":5,\"field\":\"value1\",\"someArray\":[7,8,9]}";
-	private String jsonInputNonexistentClass = "{\"updateClass\":\"org.resres.stats.controller.NonexistentUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[7,8,9]}";
+	private String jsonInputNonexistentClass = "{\"updateJavaClass\":\"org.resres.stats.controller.NonexistentUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[7,8,9]}";
 	private JsonUpdate updater;	
 	//TODO tests for malformed input
 	@Before
@@ -43,7 +43,7 @@ public class JsonUpdateTest
 		}
 		catch (InvalidJsonUpdateException e)
 		{
-			assertTrue(e.getMessage().startsWith(JsonUpdate.UPDATE_CLASS_NOT_IN_INPUT)); 
+			assertTrue(e.getMessage().startsWith(JsonUpdate.UPDATE_JAVA_CLASS_NOT_IN_INPUT)); 
 		}
 	}
 	@Test
