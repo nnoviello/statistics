@@ -21,6 +21,17 @@ public class Teacher implements Observer
 		nextSteps = new Stack<Step>(); 
 		problems = new ArrayList<Problem>(); 
 	}
+	private void buildHardCodedStatisticsProblem(Problem problem)
+	{
+		try
+		{
+			problem.addStepSequence(new StepSequence(StepEnum.ADD_SCORE, "0"));
+		}
+		catch (StepException e)
+		{
+			e.printStackTrace();
+		} 
+	}
 	public String explainPreviousStep()
 	{
 		return explainStep(true); 
@@ -94,6 +105,7 @@ public class Teacher implements Observer
 	public void addProblem(Problem problem)
 	{
 		problems.add(problem); 
+		buildHardCodedStatisticsProblem(problem);
 	}
 	public List<Problem> getProblems()
 	{

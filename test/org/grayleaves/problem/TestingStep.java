@@ -5,13 +5,17 @@ import java.util.List;
 public class TestingStep implements Step
 {
 
+	private boolean executed;
+
 	public TestingStep(Teacher teacher, String field, int index, boolean invoked)
 	{
+		executed = false; 
 	}
 
 	@Override
 	public void execute()
 	{
+		executed = true; 
 	}
 
 	@Override
@@ -36,6 +40,11 @@ public class TestingStep implements Step
 	public Double getResult()
 	{
 		return null;
+	}
+
+	public boolean hasExecuted()
+	{
+		return executed;
 	}
 	
 }

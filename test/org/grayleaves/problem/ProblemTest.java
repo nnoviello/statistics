@@ -21,11 +21,14 @@ public class ProblemTest
 	private String jsonInputMismatchedStepSequenceId = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":99,\"field\":\"value1\",\"someArray\":[1,2,9],\"updateStep\":\"testingStep\"}";
 	private Problem problem;
 	private Teacher teacher;
+	private StepSequence stepSequence;
 	@Before
 	public void setUp() throws Exception
 	{
 		teacher = new Teacher(); 
 		problem = new TestingProblem(teacher); 
+		stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5");  
+		problem.addStepSequence(stepSequence);
 	}
 	@Test
 	public void verifyMultipleStepsGenerateUniqueIds() throws Exception
@@ -51,8 +54,6 @@ public class ProblemTest
 	@Test
 	public void verifyBuildsStepSequenceFollowedByStep() throws Exception
 	{
-		StepSequence stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5");  
-		problem.addStepSequence(stepSequence);
 		Update update = problem.buildUpdate(jsonInput); 
 		assertEquals(stepSequence, problem.buildStepSequence(update)); 
 		Step step = problem.buildStep(update); 
@@ -76,8 +77,6 @@ public class ProblemTest
 	@Test
 	public void verifyThrowsIfNoMatchingStepSequenceFromUpdate() throws Exception
 	{
-		StepSequence stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5");  
-		problem.addStepSequence(stepSequence);
 		Update update = problem.buildUpdate(jsonInputMismatchedStepSequenceId); 
 		try
 		{
@@ -89,6 +88,11 @@ public class ProblemTest
 		{
 			assertEquals(AbstractProblem.MISMATCHED_STEP_SEQUENCE_ID_FROM_INPUT+"testingStep99"+AbstractProblem.MISMATCHED_STEP_SEQUENCE_ID_POSSIBLE_CAUSES, e.getMessage()); 
 		}
-
+	}
+	@Test
+	public void verifyCreatesAndExecutesStepFromJsonInput() throws Exception
+	{
+		problem.update(jsonInput); 
+		assertTrue(((TestingProblem) problem).getTestingStep().hasExecuted());
 	}
 }

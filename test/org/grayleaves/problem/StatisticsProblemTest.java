@@ -1,18 +1,14 @@
 package org.grayleaves.problem;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Map;
 
-import org.grayleaves.problem.StatisticsProblem;
-import org.grayleaves.problem.StepEnum;
-import org.grayleaves.problem.StepFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.resres.stats.AddScoreStep;
-import org.resres.stats.DeleteScoreStep;
-import org.resres.stats.ReplaceScoreStep;
-import org.resres.stats.Variable;
 
 public class StatisticsProblemTest
 {

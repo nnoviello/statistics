@@ -26,10 +26,19 @@ public abstract class AbstractProblem implements Problem
 		stepMap = new HashMap<String, StepEnum>(); 
 	}
 	@Override
-	public Update buildUpdate(String jsonUpdate) throws InvalidJsonUpdateException
+	public Update buildUpdate(String jsonUpdate) throws ProblemException
 	{
 		JsonUpdate updater = new JsonUpdate(); 
-		return updater.getUpdate(jsonUpdate);  
+		Update update = null; 
+		try 
+		{
+			update = updater.getUpdate(jsonUpdate);
+		}
+		catch (InvalidJsonUpdateException e)
+		{
+			throw new ProblemException("AbstractProblem.buildUpdate received: "+e.getMessage()); 
+		}
+		return update; 
 	}
 	@Override
 	public void addStepSequence(StepSequence stepSequence) throws StepException
@@ -75,5 +84,13 @@ public abstract class AbstractProblem implements Problem
 				update.getUpdateStep()+MISMATCHED_UPDATE_POSSIBLE_CAUSES); 
 		else return stepEnum;
 	}
-
+	@Override
+	public void update(String jsonInput) throws ProblemException
+	{
+		Update update = buildUpdate(jsonInput); 
+		Step step = buildStep(update); 
+		step.execute(); 
+		tempPostExecution(step); 
+	}
+	protected abstract void tempPostExecution(Step step);
 }

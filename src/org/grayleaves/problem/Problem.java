@@ -12,10 +12,12 @@ public interface Problem
 
 	public Step buildStep(Update update) throws ProblemException;
 
-	public Update buildUpdate(String jsonUpdate) throws InvalidJsonUpdateException; 
+	public Update buildUpdate(String jsonUpdate) throws ProblemException; 
 	
     public Map<String, StepEnum> getStepMap();
 
 	public StepSequence buildStepSequence(Update update) throws ProblemException;
+
+	public void update(String jsonInput) throws ProblemException;
 
 }
