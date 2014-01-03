@@ -20,4 +20,6 @@ public interface Step
 
 	public boolean explicitlyInvoked();
 
+	public boolean hasExecuted();
+	
 }

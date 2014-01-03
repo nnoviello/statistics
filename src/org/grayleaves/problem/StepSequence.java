@@ -6,6 +6,7 @@ public class StepSequence
 	private String id;
 	private StepEnum stepEnum;
 	private int index;
+	private Step step;
 
 	public StepSequence(StepEnum stepEnum)
 	{
@@ -34,6 +35,16 @@ public class StepSequence
 	public int getIndex()
 	{
 		return index;
+	}
+
+	public void addInterfaceUpdate(StepSequence stepSequence, VisibilityEnum visibility,
+			boolean updateResult)
+	{
+	}
+
+	public void setStep(Step step)
+	{
+		this.step = step; 
 	}
 
 }

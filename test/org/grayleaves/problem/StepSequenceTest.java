@@ -28,4 +28,19 @@ public class StepSequenceTest
 		stepSequence.setIndex(3); 
 		assertEquals(3, stepSequence.getIndex()); 
 	}
+	@Test
+	public void verifyUpdatedWithStepOnceCreated() throws Exception
+	{
+		stepSequence = new StepSequence(StepEnum.TESTING_STEP,"0");
+		Step step = new TestingStep(null, null, 0, true); 
+		step.execute(); 
+		stepSequence.setStep(step); 
+	}
+	@Test
+	public void verifyBuildsInterfaceUpdate() throws Exception
+	{	
+		stepSequence = new StepSequence(StepEnum.TESTING_STEP,"0");
+		stepSequence.addInterfaceUpdate(stepSequence, VisibilityEnum.ENABLED, true); 
+		// stepSequenceId classChange stringValueChange/doubleValueChange
+	}
 }

@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.resres.stats.AbstractStep;
 import org.resres.stats.Variable;
 
-public class AbstractStepTest
+public class StepTest
 {
 	private Variable variable;
 	private Step step;
@@ -42,7 +42,14 @@ public class AbstractStepTest
 		assertTrue(step.explicitlyInvoked()); 
 		assertFalse("little steps implicitly invoked",step.getLittleSteps().get(0).explicitlyInvoked()); 
 		assertFalse(step.getLittleSteps().get(1).explicitlyInvoked()); 
-		
+	}
+	@Test
+	public void verifyStepKnowsWhetherItHasExecuted() throws Exception
+	{
+		step = new TestingStep(variable, true); 
+		assertFalse(step.hasExecuted()); 
+		step.execute(); 
+		assertTrue(step.hasExecuted()); 
 	}
 	private class TestingStep extends AbstractStep
 	{

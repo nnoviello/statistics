@@ -28,6 +28,7 @@ public abstract class AbstractStep extends Observable implements Step
 		this.result = result; 
 		this.invoked = invoked; 
 		littleSteps = new ArrayList<Step>();
+		this.executed = false; 
 		buildLittleSteps(); // invoke this with a teacher
 	}
 
@@ -69,6 +70,11 @@ public abstract class AbstractStep extends Observable implements Step
 	public boolean explicitlyInvoked()
 	{
 		return invoked;
+	}
+	@Override
+	public boolean hasExecuted()
+	{
+		return executed;
 	}
 
 }

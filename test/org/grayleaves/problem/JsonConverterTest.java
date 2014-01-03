@@ -2,6 +2,9 @@ package org.grayleaves.problem;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 import org.resres.stats.Variable;
 
@@ -27,5 +30,21 @@ public class JsonConverterTest
 		Variable variable2 = gson.fromJson(jsonObj, Variable.class); 
 		assertEquals(variable, variable2); 
 		assertEquals(2, variable2.getFrequency(1.1));
+	}
+//	@Test
+	public void verifyGsonDealsWithMaps() throws Exception
+	{
+		Map<String, Variable> map = new HashMap<String, Variable>(); 
+		variable = new Variable(); 
+		variable.setName("fred");
+		variable.addScore(1.2); 
+		Variable variable2 = new Variable(); 
+		variable2.setName("mary");
+		variable2.addScore(1.9); 
+		map.put("any", variable);
+		map.put("benny", variable2);
+		gson = new Gson(); 
+		System.out.println(gson.toJson(map));
+		
 	}
 }
