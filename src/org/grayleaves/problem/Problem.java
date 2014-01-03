@@ -9,7 +9,7 @@ public interface Problem
 	public void addStepSequence(StepSequence stepSequence) throws StepException;
 	public StepSequence getStepSequence(int index);
 
-	public void update(String jsonInput) throws ProblemException;
+	public Map<String, InterfaceUpdate> update(String jsonInput) throws ProblemException;
 	public Update buildUpdate(String jsonUpdate) throws ProblemException; 
 	public StepSequence buildStepSequence(Update update) throws ProblemException;
 	public Step buildStep(Update update, StepSequence stepSequence) throws ProblemException;

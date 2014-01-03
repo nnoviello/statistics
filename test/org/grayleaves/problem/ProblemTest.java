@@ -3,6 +3,7 @@ package org.grayleaves.problem;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Map;
 
 import org.grayleaves.problem.AbstractProblem;
 import org.grayleaves.problem.Problem;
@@ -16,7 +17,7 @@ import com.google.gson.Gson;
 
 public class ProblemTest
 {
-	private String jsonInput = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[1,2,9],\"updateStep\":\"testingStep\"}";
+	private String jsonInput = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":5,\"field\":\"3.5\",\"someArray\":[1,2,9],\"updateStep\":\"testingStep\"}";
 	private String jsonInputMismatchedUpdateStep = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[1,2,9],\"updateStep\":\"testingStepMissing\"}";
 	private String jsonInputMismatchedStepSequenceId = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":99,\"field\":\"value1\",\"someArray\":[1,2,9],\"updateStep\":\"testingStep\"}";
 	private Problem problem;
@@ -28,6 +29,10 @@ public class ProblemTest
 		teacher = new Teacher(); 
 		problem = new TestingProblem(teacher); 
 		stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5", problem);  
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep5"); 
+		TestingStep step = new TestingStep(teacher, "2.1", 0, true); 
+		step.execute(); 
+		stepSequence.updateStep(step); 
 		problem.addStepSequence(stepSequence);
 	}
 	@Test
@@ -90,20 +95,18 @@ public class ProblemTest
 		}
 	}
 	@Test
-	public void verifyCreatesAndExecutesStepFromJsonInput() throws Exception
+	public void verifyCreatesAndExecutesStepFromJsonInputReturningInterfaceUpdateMap() throws Exception
 	{
-		problem.update(jsonInput); 
+		Map<String, InterfaceUpdate> interfaceUpdateMap = problem.update(jsonInput); 
 		StepSequence stepSequence = ((AbstractProblem) problem).getMapStepSequences().get("testingStep5"); 
 		assertTrue(stepSequence.getStep().hasExecuted()); 
-//		@Test
-//		public void verifyUpdatedWithStepOnceCreated() throws Exception
-//		{
-//			stepSequence = new StepSequence(StepEnum.TESTING_STEP,"0");
-//			Step step = new TestingStep(null, null, 0, true); 
-//			step.execute(); 
-//			stepSequence.setStep(step); 
-//		}
-
-//		assertTrue(((TestingProblem) problem).getTestingStep().hasExecuted());
+		InterfaceUpdate interfaceUpdate = interfaceUpdateMap.get("testingStep1"); 
+		assertTrue(interfaceUpdate instanceof VisibilityAndDataInterfaceUpdate); 
+		assertEquals("testingStep1", ((VisibilityAndDataInterfaceUpdate) interfaceUpdate).stepSequenceId);  
+		assertEquals("enabled",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).visibility);  
+		assertEquals(3.5,((VisibilityAndDataInterfaceUpdate) interfaceUpdate).data, .001);  
+		assertEquals("explanation of data step",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).explanation);  
+		Gson gson = new Gson();
+		System.out.println(gson.toJson(interfaceUpdateMap));
 	}
 }

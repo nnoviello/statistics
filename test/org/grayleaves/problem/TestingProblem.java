@@ -1,5 +1,7 @@
 package org.grayleaves.problem;
 
+import java.util.Map;
+
 
 public class TestingProblem extends AbstractProblem
 {
@@ -24,9 +26,9 @@ public class TestingProblem extends AbstractProblem
 		}
 	}
 	@Override
-	public void update(String jsonInput) throws ProblemException
+	public Map<String, InterfaceUpdate> update(String jsonInput) throws ProblemException
 	{
-		super.update(jsonInput);
+		return super.update(jsonInput);
 	}
 	protected TestingStep getTestingStep()
 	{

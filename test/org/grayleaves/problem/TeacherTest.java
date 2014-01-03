@@ -2,6 +2,9 @@ package org.grayleaves.problem;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.grayleaves.problem.Step;
 import org.grayleaves.problem.Teacher;
 import org.junit.Before;
@@ -20,6 +23,7 @@ public class TeacherTest
 	private Step step1;
 	private Step step2;
 	private Step step3;
+	private String expectedOutput = "{\"fred\":{\"stepSequenceId\":\"nextStep\",\"visibility\":\"enabled\"}}";
 
 	@Before
 	public void setUp() throws Exception
@@ -75,6 +79,28 @@ public class TeacherTest
 		teacher.addProblem(problem);
 		assertEquals(problem, teacher.getProblems().get(0)); 
 	}
+	@Test
+	public void verifyTeacherInvokesFirstProblemAndReturnsJsonOutput() throws Exception
+	{
+		Problem problem = new TestingProblemForTeacher(); 
+		Problem problem2 = new TestingProblemForTeacher(); 
+		teacher.addProblem(problem);
+		teacher.addProblem(problem2);
+		String jsonOutput = teacher.updateProblem("some json input");
+		assertEquals(expectedOutput, jsonOutput); 
+		assertTrue(((TestingProblemForTeacher) problem).executed); 
+		assertFalse(((TestingProblemForTeacher) problem2).executed); 
+	}
+//	@Test
+	public void verifyLogsErrorsFromProblem() throws Exception
+	{
+		//TODO verifyLogsErrorsFromProblem
+	}
+//	@Test
+	public void verifyChoosesCorrectProblemToUpdateAmongMultipleProblems() throws Exception
+	{
+		//TODO verifyChoosesCorrectProblemToUpdateAmongMultipleProblems
+	}
 	protected void addThreeExplicitSteps()
 	{
 		step1 = new AddScoreStep(teacher, variable, 1.2, 0, true); 
@@ -83,5 +109,28 @@ public class TeacherTest
 		step2.execute(); 
 		step3 = new MeanStep(teacher, variable, true); 
 		step3.execute();
+	}
+	private class TestingProblemForTeacher extends AbstractProblem
+	{
+		public boolean executed;
+		public TestingProblemForTeacher()
+		{
+			executed = false;
+		}
+		@Override
+		public Map<String, InterfaceUpdate> update(String jsonInput) throws ProblemException
+		{
+			Map<String, InterfaceUpdate> update = new HashMap<String, InterfaceUpdate>();
+			update.put("fred", new VisibilityOnlyInterfaceUpdate("nextStep", "enabled")); 
+			executed = true; 
+			return update  ;
+		}
+		@Override
+		public Step buildStep(Update update, StepSequence stepSequence)
+				throws ProblemException
+		{
+			return null;
+		}
+		
 	}
 }

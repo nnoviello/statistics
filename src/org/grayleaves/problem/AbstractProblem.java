@@ -86,13 +86,14 @@ public abstract class AbstractProblem implements Problem
 		else return stepEnum;
 	}
 	@Override
-	public void update(String jsonInput) throws ProblemException
+	public Map<String, InterfaceUpdate> update(String jsonInput) throws ProblemException
 	{
 		Update update = buildUpdate(jsonInput); 
 		StepSequence stepSequence = buildStepSequence(update); 
 		Step step = buildStep(update, stepSequence); 
 		step.execute(); 
 		stepSequence.updateStep(step); 
+		return stepSequence.execute(); 
 	}
 	public Map<String, StepSequence> getMapStepSequences()
 	{

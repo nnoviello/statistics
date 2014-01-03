@@ -2,9 +2,12 @@ package org.grayleaves.problem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
+
+import com.google.gson.Gson;
 
 
 public class Teacher implements Observer
@@ -110,5 +113,19 @@ public class Teacher implements Observer
 	public List<Problem> getProblems()
 	{
 		return problems;
+	}
+	public String updateProblem(String jsonInput)
+	{
+		Map<String, InterfaceUpdate> map = null; 
+		try
+		{
+			map = problems.get(0).update(jsonInput);
+		}
+		catch (ProblemException e)
+		{
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
+		return gson.toJson(map);
 	}
 }
