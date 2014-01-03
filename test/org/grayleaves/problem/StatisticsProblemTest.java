@@ -30,7 +30,8 @@ public class StatisticsProblemTest
 	public void verifyStepsBuiltForStatisticsProblem() throws Exception
 	{
 		Update update = problem.buildUpdate(jsonInput); //combine 
-		Step step = problem.buildStep(update); 
+		StepSequence stepSequence = problem.buildStepSequence(update); 
+		Step step = problem.buildStep(update, stepSequence); 
 		assertTrue(step instanceof AddScoreStep); 
 		step.execute(); 
 		assertEquals(1.2, step.getResult(), .001);

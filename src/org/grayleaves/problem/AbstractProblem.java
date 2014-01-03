@@ -57,8 +57,9 @@ public abstract class AbstractProblem implements Problem
 	{
 		return stepSequences.get(i);
 	}
+    
     @Override
-    public abstract Step buildStep(Update update) throws ProblemException;
+    public abstract Step buildStep(Update update, StepSequence stepSequence) throws ProblemException; 
     
     @Override
     public StepSequence buildStepSequence(Update update) throws ProblemException
@@ -88,7 +89,9 @@ public abstract class AbstractProblem implements Problem
 	public void update(String jsonInput) throws ProblemException
 	{
 		Update update = buildUpdate(jsonInput); 
-		Step step = buildStep(update); 
+		StepSequence stepSequence = buildStepSequence(update); 
+		Step step = buildStep(update, stepSequence); 
+//		Step step = buildStep(update); 
 		step.execute(); 
 		tempPostExecution(step); 
 	}

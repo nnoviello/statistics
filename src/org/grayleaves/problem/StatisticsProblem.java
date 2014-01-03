@@ -19,13 +19,9 @@ public class StatisticsProblem extends AbstractProblem implements Problem
 		addStepMapEntry(StepEnum.REPLACE_SCORE); 
 		variable = new Variable(); 
 	}
-
-
-
 	@Override
-	public Step buildStep(Update update) throws ProblemException
+	public Step buildStep(Update update, StepSequence stepSequence)
 	{
-		StepSequence stepSequence = buildStepSequence(update); 
 		StepEnum stepEnum = getStepMap().get(update.getUpdateStep());
 		double score = Double.parseDouble(((StatisticsUpdate) update).afterValue);
 		int index = stepSequence.getIndex(); 
@@ -52,5 +48,8 @@ public class StatisticsProblem extends AbstractProblem implements Problem
 	protected void tempPostExecution(Step step)
 	{
 	}
+
+
+
 
 }

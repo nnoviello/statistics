@@ -1,6 +1,5 @@
 package org.grayleaves.problem;
 
-import static org.junit.Assert.assertEquals;
 
 public class TestingProblem extends AbstractProblem
 {
@@ -15,9 +14,8 @@ public class TestingProblem extends AbstractProblem
 	}
 
 	@Override
-	public Step buildStep(Update update) throws ProblemException
+	public Step buildStep(Update update, StepSequence stepSequence) throws ProblemException
 	{
-		StepSequence stepSequence = buildStepSequence(update); 
 		StepEnum stepEnum = buildStepEnum(update);
 		switch (stepEnum) // only one in this case, but there could be others.
 		{
@@ -40,4 +38,5 @@ public class TestingProblem extends AbstractProblem
 	{
 		testingStep = (TestingStep) step; 
 	}
+
 }

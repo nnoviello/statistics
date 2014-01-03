@@ -56,7 +56,7 @@ public class ProblemTest
 	{
 		Update update = problem.buildUpdate(jsonInput); 
 		assertEquals(stepSequence, problem.buildStepSequence(update)); 
-		Step step = problem.buildStep(update); 
+		Step step = problem.buildStep(update, stepSequence); 
 		assertTrue(step instanceof TestingStep); 
 	}
 	@Test
