@@ -21,7 +21,7 @@ public class StatisticsProblemTest
 	{
 		teacher = new Teacher(); 
 		problem = new StatisticsProblem(teacher); 
-		StepSequence stepSequence = new StepSequence(StepEnum.ADD_SCORE, "5");  
+		StepSequence stepSequence = new StepSequence(StepEnum.ADD_SCORE, "5", problem);  
 		stepSequence.setIndex(0); 
 		assertEquals("addScore5", stepSequence.getId()); 
 		problem.addStepSequence(stepSequence);

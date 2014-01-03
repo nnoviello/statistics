@@ -27,16 +27,16 @@ public class ProblemTest
 	{
 		teacher = new Teacher(); 
 		problem = new TestingProblem(teacher); 
-		stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5");  
+		stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5", problem);  
 		problem.addStepSequence(stepSequence);
 	}
 	@Test
 	public void verifyMultipleStepsGenerateUniqueIds() throws Exception
 	{
-		problem.addStepSequence(new StepSequence(StepEnum.TESTING_STEP));
+		problem.addStepSequence(new StepSequence(StepEnum.TESTING_STEP, problem));
 		try 
 		{
-			problem.addStepSequence(new StepSequence(StepEnum.TESTING_STEP));
+			problem.addStepSequence(new StepSequence(StepEnum.TESTING_STEP, problem));
 		}
 		catch (StepException e)
 		{
@@ -93,6 +93,17 @@ public class ProblemTest
 	public void verifyCreatesAndExecutesStepFromJsonInput() throws Exception
 	{
 		problem.update(jsonInput); 
-		assertTrue(((TestingProblem) problem).getTestingStep().hasExecuted());
+		StepSequence stepSequence = ((AbstractProblem) problem).getMapStepSequences().get("testingStep5"); 
+		assertTrue(stepSequence.getStep().hasExecuted()); 
+//		@Test
+//		public void verifyUpdatedWithStepOnceCreated() throws Exception
+//		{
+//			stepSequence = new StepSequence(StepEnum.TESTING_STEP,"0");
+//			Step step = new TestingStep(null, null, 0, true); 
+//			step.execute(); 
+//			stepSequence.setStep(step); 
+//		}
+
+//		assertTrue(((TestingProblem) problem).getTestingStep().hasExecuted());
 	}
 }

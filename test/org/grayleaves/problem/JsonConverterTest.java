@@ -34,15 +34,17 @@ public class JsonConverterTest
 //	@Test
 	public void verifyGsonDealsWithMaps() throws Exception
 	{
-		Map<String, Variable> map = new HashMap<String, Variable>(); 
-		variable = new Variable(); 
-		variable.setName("fred");
-		variable.addScore(1.2); 
-		Variable variable2 = new Variable(); 
-		variable2.setName("mary");
-		variable2.addScore(1.9); 
-		map.put("any", variable);
-		map.put("benny", variable2);
+		Map<String, NullInterfaceUpdate> map = new HashMap<String, NullInterfaceUpdate>(); 
+		map.put("fred", new NullInterfaceUpdate()); 
+//		Map<String, Variable> map = new HashMap<String, Variable>(); 
+//		variable = new Variable(); 
+//		variable.setName("fred");
+//		variable.addScore(1.2); 
+//		Variable variable2 = new Variable(); 
+//		variable2.setName("mary");
+//		variable2.addScore(1.9); 
+//		map.put("any", variable);
+//		map.put("benny", variable2);
 		gson = new Gson(); 
 		System.out.println(gson.toJson(map));
 		

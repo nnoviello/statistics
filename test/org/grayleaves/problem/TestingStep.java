@@ -6,9 +6,11 @@ public class TestingStep implements Step
 {
 
 	private boolean executed;
+	private String field;
 
 	public TestingStep(Teacher teacher, String field, int index, boolean invoked)
 	{
+		this.field = field; 
 		executed = false; 
 	}
 
@@ -21,7 +23,7 @@ public class TestingStep implements Step
 	@Override
 	public String explain()
 	{
-		return null;
+		return "explanation of data step";
 	}
 
 	@Override
@@ -39,7 +41,7 @@ public class TestingStep implements Step
 	@Override
 	public Double getResult()
 	{
-		return null;
+		return Double.parseDouble(field);
 	}
 
 	public boolean hasExecuted()

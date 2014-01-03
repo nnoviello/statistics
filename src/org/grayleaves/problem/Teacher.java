@@ -25,7 +25,7 @@ public class Teacher implements Observer
 	{
 		try
 		{
-			problem.addStepSequence(new StepSequence(StepEnum.ADD_SCORE, "0"));
+			problem.addStepSequence(new StepSequence(StepEnum.ADD_SCORE, "0", problem));
 		}
 		catch (StepException e)
 		{

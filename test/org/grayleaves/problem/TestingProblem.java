@@ -32,11 +32,4 @@ public class TestingProblem extends AbstractProblem
 	{
 		return testingStep;
 	}
-
-	@Override
-	protected void tempPostExecution(Step step)
-	{
-		testingStep = (TestingStep) step; 
-	}
-
 }

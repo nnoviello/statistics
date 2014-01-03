@@ -43,13 +43,4 @@ public class StatisticsProblem extends AbstractProblem implements Problem
 	{
 		return variable;
 	}
-
-	@Override
-	protected void tempPostExecution(Step step)
-	{
-	}
-
-
-
-
 }

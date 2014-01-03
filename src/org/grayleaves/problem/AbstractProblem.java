@@ -91,9 +91,13 @@ public abstract class AbstractProblem implements Problem
 		Update update = buildUpdate(jsonInput); 
 		StepSequence stepSequence = buildStepSequence(update); 
 		Step step = buildStep(update, stepSequence); 
-//		Step step = buildStep(update); 
 		step.execute(); 
-		tempPostExecution(step); 
+		stepSequence.updateStep(step); 
 	}
-	protected abstract void tempPostExecution(Step step);
+	public Map<String, StepSequence> getMapStepSequences()
+	{
+		return mapStepSequences;
+	}
+
 }
+
