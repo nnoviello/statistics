@@ -19,6 +19,12 @@ public class StatisticsUpdate implements Update
 	public StatisticsUpdate()
 	{
 	}
+	
+	public StatisticsUpdate(String updateStep, String afterValue)
+	{
+		this.updateStep = updateStep; 
+		this.afterValue = afterValue;
+	}
 
 	@Override
 	public String getStepSequenceId()

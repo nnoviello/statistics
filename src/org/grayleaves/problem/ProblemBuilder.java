@@ -20,7 +20,6 @@ public class ProblemBuilder
 	private Problem buildBasicStatisticsProblem() throws ProblemException
 	{
 		StatisticsProblem problem = new StatisticsProblem(teacher); 
-		addEnumsToMap(problem); 
 		buildStepSequences(problem);
 		return problem;
 	}
@@ -55,6 +54,7 @@ public class ProblemBuilder
 	private void buildScoreStepSequences(StatisticsProblem problem) throws StepException
 	{
 		StepSequence stepSequence = new StepSequence(StepEnum.SCORE, "0", problem); 
+		stepSequence.setIndex(0); 
 		updateButtonVisibility(stepSequence, StepEnum.SUM_OF_SCORES, VisibilityEnum.ENABLED);
 		updateButtonVisibility(stepSequence, StepEnum.N, VisibilityEnum.DISABLED);
 		stepSequence.addVisibilityOnlyInterfaceUpdate(StepEnum.SCORE.getName()+"1", VisibilityEnum.ENABLED); 
@@ -71,6 +71,7 @@ public class ProblemBuilder
 	{
 		StepSequence stepSequence;
 		stepSequence = new StepSequence(StepEnum.SCORE, current+"", problem); 
+		stepSequence.setIndex(current); 
 		stepSequence.addVisibilityOnlyInterfaceUpdate(StepEnum.SCORE.getName()+next, VisibilityEnum.ENABLED); 
 		stepSequence.addVisibilityOnlyInterfaceUpdate(StepEnum.SCORE.getName()+next+LABEL, VisibilityEnum.ENABLED); 
 		problem.addStepSequence(stepSequence);
@@ -171,23 +172,6 @@ public class ProblemBuilder
 		StepSequence stepSequence = enableAndShowOutputForButton(problem, StepEnum.STANDARD_DEVIATION);
 		problem.addStepSequence(stepSequence);
 	}
-
-
-	protected void addEnumsToMap(StatisticsProblem problem)
-	{
-		problem.addStepMapEntry(StepEnum.VARIABLE_NAME); 
-		problem.addStepMapEntry(StepEnum.ADD_SCORE); 
-		problem.addStepMapEntry(StepEnum.DELETE_SCORE); 
-		problem.addStepMapEntry(StepEnum.DEVIATION); 
-		problem.addStepMapEntry(StepEnum.MEAN); 
-		problem.addStepMapEntry(StepEnum.N); 
-		problem.addStepMapEntry(StepEnum.SQUARED_DEVIATION); 
-		problem.addStepMapEntry(StepEnum.SUM_OF_SCORES); 
-		problem.addStepMapEntry(StepEnum.SUM_OF_SQUARED_DEVIATIONS); 
-		problem.addStepMapEntry(StepEnum.VARIANCE); 
-		problem.addStepMapEntry(StepEnum.STANDARD_DEVIATION);
-	}
-
 	public void setTeacher(Teacher teacher)
 	{
 		this.teacher = teacher; 

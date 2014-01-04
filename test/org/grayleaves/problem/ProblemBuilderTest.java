@@ -18,6 +18,7 @@ public class ProblemBuilderTest
 		assertEquals("variableName", problem.getStepSequence(0).getId());
 		assertEquals("score0", problem.getStepSequence(1).getId());
 		assertEquals("score9", problem.getStepSequence(10).getId());
+		assertEquals("track index",9, problem.getStepSequence(10).getIndex()); 
 		assertEquals("sumOfScores", problem.getStepSequence(11).getId());
 		assertEquals("n", problem.getStepSequence(12).getId());
 		assertEquals("mean", problem.getStepSequence(13).getId());
