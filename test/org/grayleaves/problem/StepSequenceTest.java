@@ -51,7 +51,7 @@ public class StepSequenceTest
 		InterfaceUpdate interfaceUpdate = interfaceUpdateMap.get("testingStep1"); 
 		assertTrue(interfaceUpdate instanceof VisibilityOnlyInterfaceUpdate); 
 		assertEquals("testingStep1", ((VisibilityOnlyInterfaceUpdate) interfaceUpdate).stepSequenceId);  
-		assertEquals("enabled",((VisibilityOnlyInterfaceUpdate) interfaceUpdate).visibility);  
+		assertEquals("enable",((VisibilityOnlyInterfaceUpdate) interfaceUpdate).visibility);  
 		// stepSequenceId classChange stringValueChange/doubleValueChange explanation
 	}
 	@Test
@@ -86,7 +86,7 @@ public class StepSequenceTest
 		InterfaceUpdate interfaceUpdate = interfaceUpdateMap.get("testingStep1"); 
 		assertTrue(interfaceUpdate instanceof VisibilityAndDataInterfaceUpdate); 
 		assertEquals("testingStep1", ((VisibilityAndDataInterfaceUpdate) interfaceUpdate).stepSequenceId);  
-		assertEquals("enabled",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).visibility);  
+		assertEquals("enable",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).visibility);  
 		assertEquals(2.1,((VisibilityAndDataInterfaceUpdate) interfaceUpdate).data, .001);  
 		assertEquals("explanation of data step",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).explanation);  
 		//  explanation
@@ -103,7 +103,7 @@ public class StepSequenceTest
 		InterfaceUpdate interfaceUpdate = interfaceUpdateMap.get("testingStep1"); 
 		assertTrue(interfaceUpdate instanceof VisibilityAndDataInterfaceUpdate); 
 		assertEquals("testingStep1", ((VisibilityAndDataInterfaceUpdate) interfaceUpdate).stepSequenceId);  
-		assertEquals("enabled",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).visibility);  
+		assertEquals("enable",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).visibility);  
 		assertEquals(2.1,((VisibilityAndDataInterfaceUpdate) interfaceUpdate).data, .001);  
 		assertEquals("explanation of data step",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).explanation);  
 
@@ -117,6 +117,11 @@ public class StepSequenceTest
 		assertEquals("testingStep1", ((DataOnlyInterfaceUpdate) interfaceUpdate).stepSequenceId);  
 		assertEquals(3.2,((DataOnlyInterfaceUpdate) interfaceUpdate).data, .001);  
 		assertEquals("explanation of data step",((DataOnlyInterfaceUpdate) interfaceUpdate).explanation);  
+	}
+//	@Test
+	public void verifyBuildsLabelInterfaceUpdate() throws Exception
+	{
+		//TODO verifyBuildsLabelInterfaceUpdate
 	}
 	@Test
 	public void verifyThrowsIfDataStepSequenceIdDoesntMatchExistingStepSequences() throws Exception

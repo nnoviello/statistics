@@ -12,11 +12,12 @@ public enum StepEnum
 	MEAN { public String getName() { return "mean";}},
 	N { public String getName() { return "n";}}, 
 	SQUARED_DEVIATION { public String getName() { return "squaredDeviation";}}, 
-	SUM_OF_SCORES { public String getName() { return "sumOfSquares";}}, 
+	SUM_OF_SCORES { public String getName() { return "sumOfScores";}}, 
 	SUM_OF_SQUARED_DEVIATIONS { public String getName() { return "sumOfSquaredDeviations";}},
 	VARIANCE { public String getName() { return "variance";}}, 
 	STANDARD_DEVIATION { public String getName() { return "standardDeviation";}}, 
-	VARIABLE_NAME { public String getName() { return "variableName";}};
+	VARIABLE_NAME { public String getName() { return "variableName";}},
+	SCORE { public String getName() { return "score";}};
 	
 	public  abstract String getName(); 
 	

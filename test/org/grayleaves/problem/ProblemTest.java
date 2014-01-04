@@ -103,7 +103,7 @@ public class ProblemTest
 		InterfaceUpdate interfaceUpdate = interfaceUpdateMap.get("testingStep1"); 
 		assertTrue(interfaceUpdate instanceof VisibilityAndDataInterfaceUpdate); 
 		assertEquals("testingStep1", ((VisibilityAndDataInterfaceUpdate) interfaceUpdate).stepSequenceId);  
-		assertEquals("enabled",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).visibility);  
+		assertEquals("enable",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).visibility);  
 		assertEquals(3.5,((VisibilityAndDataInterfaceUpdate) interfaceUpdate).data, .001);  
 		assertEquals("explanation of data step",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).explanation);  
 		Gson gson = new Gson();
