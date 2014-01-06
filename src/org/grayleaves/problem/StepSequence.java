@@ -56,7 +56,7 @@ public class StepSequence
 	{
 		interfaceUpdateMap.put(stepSequenceId, new VisibilityOnlyInterfaceUpdate(stepSequenceId, visibility.getVisibility())); 
 	}
-	public void addVisibilityAndDataInterfaceUpdate(String stepSequenceId, VisibilityEnum visibility, String dataStepSequenceId)
+	public void addVisibilityAndDataInterfaceUpdate(String stepSequenceId, VisibilityEnum visibility)
 	{
 		interfaceUpdateMap.put(stepSequenceId, new VisibilityAndDataInterfaceUpdate(stepSequenceId, visibility.getVisibility(), this.id)); 
 	}

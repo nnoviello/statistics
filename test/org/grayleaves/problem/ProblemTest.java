@@ -29,7 +29,7 @@ public class ProblemTest
 		teacher = new Teacher(); 
 		problem = new TestingProblem(teacher); 
 		stepSequence = new StepSequence(StepEnum.TESTING_STEP, "5", problem);  
-		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep5"); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
 		TestingStep step = new TestingStep(teacher, "2.1", 0, true); 
 		step.execute(); 
 		stepSequence.updateStep(step); 

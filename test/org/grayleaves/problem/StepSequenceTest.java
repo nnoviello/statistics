@@ -55,11 +55,11 @@ public class StepSequenceTest
 //		assertEquals(2.1,((VisibilityAndDataInterfaceUpdate) interfaceUpdate).data, .001);  
 //		assertEquals("explanation of data step",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).explanation);  
 		stepSequence = new StepSequence(StepEnum.TESTING_STEP, problem);
-		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep"); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
 //		stepSequence.addVisibilityOnlyInterfaceUpdate("testingStep", VisibilityEnum.ENABLED); 
 		addTestingStep(stepSequence, 1); 
 		stepSequence.addStepSequence(new StepSequence(StepEnum.TESTING_STEP, "0", problem));
-		stepSequence.getStepSequence(0).addVisibilityAndDataInterfaceUpdate("testingStep1a", VisibilityEnum.ENABLED, "testingStep"); 
+		stepSequence.getStepSequence(0).addVisibilityAndDataInterfaceUpdate("testingStep1a", VisibilityEnum.ENABLED); 
 		addTestingStep(stepSequence.getStepSequence(0), 11); 
 		stepSequence.addStepSequence(new StepSequence(StepEnum.TESTING_STEP, "1", problem));
 		stepSequence.getStepSequence(1).addVisibilityOnlyInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
@@ -113,7 +113,7 @@ public class StepSequenceTest
 	@Test
 	public void verifyBuildsVisibilityAndDataInterfaceUpdate() throws Exception
 	{	
-		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep0"); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
 		
 		TestingStep step = new TestingStep(null, "2.1", 0, true); 
 		step.execute(); 
@@ -130,7 +130,7 @@ public class StepSequenceTest
 	@Test
 	public void verifyBuildsDataOnlyInterfaceUpdateIfThisIsSecondExecution() throws Exception
 	{	
-		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep0"); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
 		
 		TestingStep step = new TestingStep(null, "2.1", 0, true); 
 		step.execute(); 
@@ -162,7 +162,7 @@ public class StepSequenceTest
 	@Test
 	public void verifyThrowsIfDataStepSequenceIdDoesntMatchExistingStepSequences() throws Exception
 	{
-		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "nonExistentTestingStep0"); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
 		try 
 		{
 			@SuppressWarnings("unused")
@@ -177,7 +177,7 @@ public class StepSequenceTest
 	@Test
 	public void verifyThrowsIfDataStepSequenceDoesNotHaveStep() throws Exception
 	{
-		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep0"); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
 		try 
 		{
 			@SuppressWarnings("unused")
@@ -193,7 +193,7 @@ public class StepSequenceTest
 	public void verifyThrowsIfDataStepSequenceHasStepButStepHasNotExecuted() throws Exception
 	{
 		// not sure this will ever happen 
-		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep0"); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
 		TestingStep step = new TestingStep(null, "2.1", 0, true); 
 //		step.execute(); 
 		stepSequence.updateStep(step); 

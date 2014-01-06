@@ -125,12 +125,12 @@ public class ProblemBuilder
 	protected void makeDeviationOrSquaredDeviationVisibleAndPopulated(
 			StepSequence stepSequence, StepEnum stepEnum, int current)
 	{
-		stepSequence.addVisibilityAndDataInterfaceUpdate(stepEnum.getName()+current+OUTPUT, VisibilityEnum.ENABLED, stepEnum.getName()+current);
+		stepSequence.addVisibilityAndDataInterfaceUpdate(stepEnum.getName()+current+OUTPUT, VisibilityEnum.ENABLED);
 	}
 	protected StepSequence enableAndShowOutputForStep(StatisticsProblem problem, StepEnum stepEnum)
 	{
 		StepSequence stepSequence = new StepSequence(stepEnum, problem); 
-		stepSequence.addVisibilityAndDataInterfaceUpdate(stepEnum.getName()+OUTPUT, VisibilityEnum.ENABLED, stepEnum.getName());
+		stepSequence.addVisibilityAndDataInterfaceUpdate(stepEnum.getName()+OUTPUT, VisibilityEnum.ENABLED);
 		return stepSequence;
 	}
 
