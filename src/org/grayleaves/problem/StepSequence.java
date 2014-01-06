@@ -8,7 +8,7 @@ public class StepSequence
 {
 
 	public static final String DATA_STEP_SEQUENCE_ID_NOT_FOUND = ", but unable to retrieve data, because step sequence Id not found for ";
-	public static final String ATTEMPTED_INTERFACE_UPDATE = "StepSequence.getDataFromStepSequence:  attempted to create interface update for ";
+	public static final String ATTEMPTED_INTERFACE_UPDATE = "StepSequence.getStepFromStepSequence:  attempted to create interface update for ";
 	public static final String DATA_STEP_SEQUENCE = ", but unable to retrieve data, because step sequence Id ";
 	public static final String HAS_NO_STEP = " has no step";
 	public static final String STEP_HAS_NOT_YET_EXECUTED = " has a step which has not yet executed";
@@ -19,6 +19,7 @@ public class StepSequence
 	private Map<String, InterfaceUpdate> interfaceUpdateMap;
 	private boolean executed;
 	private Problem problem;
+	private int order;
 
 	public StepSequence(StepEnum stepEnum, Problem problem)
 	{
@@ -57,8 +58,12 @@ public class StepSequence
 	}
 	public void addVisibilityAndDataInterfaceUpdate(String stepSequenceId, VisibilityEnum visibility, String dataStepSequenceId)
 	{
-		interfaceUpdateMap.put(stepSequenceId, new VisibilityAndDataInterfaceUpdate(stepSequenceId, visibility.getVisibility(), dataStepSequenceId)); 
+		interfaceUpdateMap.put(stepSequenceId, new VisibilityAndDataInterfaceUpdate(stepSequenceId, visibility.getVisibility(), this.id)); 
 	}
+//	public void addVisibilityAndDataInterfaceUpdate(String stepSequenceId, VisibilityEnum visibility, String dataStepSequenceId)
+//	{
+//		interfaceUpdateMap.put(stepSequenceId, new VisibilityAndDataInterfaceUpdate(stepSequenceId, visibility.getVisibility(), dataStepSequenceId)); 
+//	}
 	public Map<String, InterfaceUpdate> execute() throws ProblemException
 	{
 		updateData();
@@ -125,6 +130,33 @@ public class StepSequence
 	public Step getStep()
 	{
 		return step;
+	}
+	public void setOrder(int order)
+	{
+		this.order = order; 
+	}
+
+	public Map<String, InterfaceUpdate> buildAndExecuteSteps(Update update,
+			AbstractProblem problem) throws ProblemException
+	{
+		Step step = problem.buildStep(update, this); 
+		step.execute(); 
+		updateStep(step); 
+		return execute(); 
+	}
+
+	public void addStepSequence(StepSequence stepSequence)
+	{
+	}
+
+	public StepSequence getStepSequence(int i)
+	{
+		return null;
+	}
+
+	public Map<String, InterfaceUpdate> executeSteps()
+	{
+		return null;
 	}
 
 

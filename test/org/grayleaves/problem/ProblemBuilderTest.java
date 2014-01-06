@@ -2,6 +2,9 @@ package org.grayleaves.problem;
 
 import static org.junit.Assert.*;
 
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.junit.Test;
 
 public class ProblemBuilderTest
@@ -13,7 +16,7 @@ public class ProblemBuilderTest
 	{
 		builder = new ProblemBuilder(); 
 		builder.setTeacher(new Teacher()); 
-		Problem problem = builder.buildProblem(ProblemEnum.BASIC_STATISTICS); 
+		StatisticsProblem problem = (StatisticsProblem) builder.buildProblem(ProblemEnum.BASIC_STATISTICS); 
 		assertTrue(problem instanceof StatisticsProblem); 
 		assertEquals("variableName", problem.getStepSequence(0).getId());
 		assertEquals("score0", problem.getStepSequence(1).getId());
@@ -27,6 +30,12 @@ public class ProblemBuilderTest
 		assertEquals("sumOfSquaredDeviations", problem.getStepSequence(16).getId());
 		assertEquals("variance", problem.getStepSequence(17).getId());
 		assertEquals("standardDeviation", problem.getStepSequence(18).getId());
+//		Map<String, StepSequence> sequences = problem.getMapStepSequences(); 
+//		sequences.entrySet(); 
+//		for (Entry<String, StepSequence> entry : sequences.entrySet())
+//		{
+//			System.out.println(entry.getKey());
+//		}
 	}
 
 }

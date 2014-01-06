@@ -26,21 +26,6 @@ public abstract class AbstractProblem implements Problem
 		stepMap = new HashMap<String, StepEnum>(); 
 	}
 	@Override
-	public Update buildUpdate(String jsonUpdate) throws ProblemException
-	{
-		JsonUpdate updater = new JsonUpdate(); 
-		Update update = null; 
-		try 
-		{
-			update = updater.getUpdate(jsonUpdate);
-		}
-		catch (InvalidJsonUpdateException e)
-		{
-			throw new ProblemException("AbstractProblem.buildUpdate received: "+e.getMessage()); 
-		}
-		return update; 
-	}
-	@Override
 	public void addStepSequence(StepSequence stepSequence) throws StepException
 	{
 		if (mapStepSequences.containsKey(stepSequence.getId())) 
@@ -57,18 +42,44 @@ public abstract class AbstractProblem implements Problem
 	{
 		return stepSequences.get(i);
 	}
+	@Override
+	public Map<String, InterfaceUpdate> update(String jsonInput) throws ProblemException
+	{
+		Update update = buildUpdate(jsonInput); 
+		StepSequence stepSequence = buildStepSequence(update); 
+		return stepSequence.buildAndExecuteSteps(update, this);
+//		Step step = buildStep(update, stepSequence); 
+//		step.execute(); 
+//		stepSequence.updateStep(step); 
+//		return stepSequence.execute(); 
+	}
+	@Override
+	public Update buildUpdate(String jsonUpdate) throws ProblemException
+	{
+		JsonUpdate updater = new JsonUpdate(); 
+		Update update = null; 
+		try 
+		{
+			update = updater.getUpdate(jsonUpdate);
+		}
+		catch (InvalidJsonUpdateException e)
+		{
+			throw new ProblemException("AbstractProblem.buildUpdate received: "+e.getMessage()); 
+		}
+		return update; 
+	}
+	@Override
+	public StepSequence buildStepSequence(Update update) throws ProblemException
+	{
+		StepSequence stepSequence = mapStepSequences.get(update.getStepSequenceId()); 
+		if (stepSequence == null) throw new ProblemException(MISMATCHED_STEP_SEQUENCE_ID_FROM_INPUT+
+				update.getStepSequenceId()+MISMATCHED_STEP_SEQUENCE_ID_POSSIBLE_CAUSES); 
+		else return stepSequence;
+	}
     
     @Override
     public abstract Step buildStep(Update update, StepSequence stepSequence) throws ProblemException; 
     
-    @Override
-    public StepSequence buildStepSequence(Update update) throws ProblemException
-    {
-    	StepSequence stepSequence = mapStepSequences.get(update.getStepSequenceId()); 
-    	if (stepSequence == null) throw new ProblemException(MISMATCHED_STEP_SEQUENCE_ID_FROM_INPUT+
-    			update.getStepSequenceId()+MISMATCHED_STEP_SEQUENCE_ID_POSSIBLE_CAUSES); 
-    	else return stepSequence;
-    }
 
     public Map<String, StepEnum> getStepMap()
 	{
@@ -84,16 +95,6 @@ public abstract class AbstractProblem implements Problem
 		if (stepEnum == null) throw new ProblemException(MISMATCHED_UPDATE_STEP_FROM_INPUT+
 				update.getUpdateStep()+MISMATCHED_UPDATE_POSSIBLE_CAUSES); 
 		else return stepEnum;
-	}
-	@Override
-	public Map<String, InterfaceUpdate> update(String jsonInput) throws ProblemException
-	{
-		Update update = buildUpdate(jsonInput); 
-		StepSequence stepSequence = buildStepSequence(update); 
-		Step step = buildStep(update, stepSequence); 
-		step.execute(); 
-		stepSequence.updateStep(step); 
-		return stepSequence.execute(); 
 	}
 	public Map<String, StepSequence> getMapStepSequences()
 	{

@@ -39,14 +39,46 @@ public class StepSequenceTest
 		stepSequence.setIndex(3); 
 		assertEquals(3, stepSequence.getIndex()); 
 	}
+//	@Test
+	public void verifyStepSequenceCanHaveLittleStepSequences() throws Exception
+	{
+//		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep0"); 
+//		
+//		TestingStep step = new TestingStep(null, "2.1", 0, true); 
+//		step.execute(); 
+//		stepSequence.updateStep(step); 
+//		Map<String, InterfaceUpdate> interfaceUpdateMap = stepSequence.execute(); 
+//		InterfaceUpdate interfaceUpdate = interfaceUpdateMap.get("testingStep1"); 
+//		assertTrue(interfaceUpdate instanceof VisibilityAndDataInterfaceUpdate); 
+//		assertEquals("testingStep1", ((VisibilityAndDataInterfaceUpdate) interfaceUpdate).stepSequenceId);  
+//		assertEquals("enable",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).visibility);  
+//		assertEquals(2.1,((VisibilityAndDataInterfaceUpdate) interfaceUpdate).data, .001);  
+//		assertEquals("explanation of data step",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).explanation);  
+		stepSequence = new StepSequence(StepEnum.TESTING_STEP, problem);
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED, "testingStep"); 
+//		stepSequence.addVisibilityOnlyInterfaceUpdate("testingStep", VisibilityEnum.ENABLED); 
+		addTestingStep(stepSequence, 1); 
+		stepSequence.addStepSequence(new StepSequence(StepEnum.TESTING_STEP, "0", problem));
+		stepSequence.getStepSequence(0).addVisibilityAndDataInterfaceUpdate("testingStep1a", VisibilityEnum.ENABLED, "testingStep"); 
+		addTestingStep(stepSequence.getStepSequence(0), 11); 
+		stepSequence.addStepSequence(new StepSequence(StepEnum.TESTING_STEP, "1", problem));
+		stepSequence.getStepSequence(1).addVisibilityOnlyInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
+		addTestingStep(stepSequence.getStepSequence(1), 12); 
+		Map<String, InterfaceUpdate> interfaceUpdateMap = stepSequence.executeSteps(); 
+	}
+	@Test
+	public void verifySortsByOrder() throws Exception
+	{
+		//TODO revisit need for this
+		stepSequence = new StepSequence(StepEnum.TESTING_STEP, problem);
+		stepSequence.setOrder(3); 
+		
+	}
 	@Test
 	public void verifyBuildsVisibilityOnlyInterfaceUpdate() throws Exception
 	{	
 		stepSequence.addVisibilityOnlyInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
-
-		TestingStep step = new TestingStep(null, "1", 0, true); 
-		step.execute(); 
-		stepSequence.updateStep(step); 
+		addTestingStep(stepSequence, 1); 
 		Map<String, InterfaceUpdate> interfaceUpdateMap = stepSequence.execute(); 
 		InterfaceUpdate interfaceUpdate = interfaceUpdateMap.get("testingStep1"); 
 		assertTrue(interfaceUpdate instanceof VisibilityOnlyInterfaceUpdate); 
@@ -54,14 +86,18 @@ public class StepSequenceTest
 		assertEquals("enable",((VisibilityOnlyInterfaceUpdate) interfaceUpdate).visibility);  
 		// stepSequenceId classChange stringValueChange/doubleValueChange explanation
 	}
+
+	protected void addTestingStep(StepSequence stepSequence, int index)
+	{
+		TestingStep step = new TestingStep(null, ""+index, 0, true); 
+		step.execute(); 
+		stepSequence.updateStep(step);
+	}
 	@Test
 	public void verifySecondExecutionOfVisibilityOnlyInterfaceUpdateReturnsNullInterfaceUpdate() throws Exception
 	{
 		stepSequence.addVisibilityOnlyInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); 
-		
-		TestingStep step = new TestingStep(null, "1", 0, true); 
-		step.execute(); 
-		stepSequence.updateStep(step); 
+		addTestingStep(stepSequence, 1); 
 		Map<String, InterfaceUpdate> interfaceUpdateMap = stepSequence.execute(); 
 		InterfaceUpdate interfaceUpdate = interfaceUpdateMap.get("testingStep1"); 
 		assertTrue(interfaceUpdate instanceof VisibilityOnlyInterfaceUpdate); 

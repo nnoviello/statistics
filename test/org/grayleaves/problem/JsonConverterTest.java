@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.resres.stats.Variable;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class JsonConverterTest
 {
@@ -48,5 +49,14 @@ public class JsonConverterTest
 		gson = new Gson(); 
 		System.out.println(gson.toJson(map));
 		
+	}
+	@Test
+	public void verifySkipsFieldsAnnotatedWithJsonSkip() throws Exception
+	{
+		gson = new GsonBuilder().setExclusionStrategies(new JsonExclusionStrategy())
+				.serializeNulls().create();  
+		String key = "stepSequence1";
+		StepSequenceKey orderedKey = new StepSequenceKey(key, 1);
+		assertEquals("{\"stepSequenceId\":\"stepSequence1\"}", gson.toJson(orderedKey)); 
 	}
 }

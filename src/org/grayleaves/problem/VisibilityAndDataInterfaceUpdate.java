@@ -6,7 +6,7 @@ public class VisibilityAndDataInterfaceUpdate implements DataInterfaceUpdate
 	public String visibility;
 	public double data;
 	public String explanation;
-	protected String dataStepSequenceId; // only for use on server; won't update interface 
+	@JsonSkip protected String dataStepSequenceId; // only for use on server; won't update interface 
 
 	public VisibilityAndDataInterfaceUpdate(String stepSequenceId, String visibility, String dataStepSequenceId)
 	{

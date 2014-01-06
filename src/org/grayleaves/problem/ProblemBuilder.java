@@ -78,21 +78,21 @@ public class ProblemBuilder
 	}
 	private void buildSumOfScoresSequence(StatisticsProblem problem) throws StepException
 	{
-		StepSequence stepSequence = enableAndShowOutputForButton(problem, StepEnum.SUM_OF_SCORES);
+		StepSequence stepSequence = enableAndShowOutputForStep(problem, StepEnum.SUM_OF_SCORES);
 		updateButtonVisibility(stepSequence, StepEnum.N, VisibilityEnum.ENABLED);
 		updateButtonVisibility(stepSequence, StepEnum.MEAN, VisibilityEnum.DISABLED);
 		problem.addStepSequence(stepSequence);
 	}
 	private void buildNStepSequence(StatisticsProblem problem) throws StepException
 	{
-		StepSequence stepSequence = enableAndShowOutputForButton(problem, StepEnum.N);
+		StepSequence stepSequence = enableAndShowOutputForStep(problem, StepEnum.N);
 		updateButtonVisibility(stepSequence, StepEnum.MEAN, VisibilityEnum.ENABLED);
 		stepSequence.addVisibilityOnlyInterfaceUpdate(StepEnum.DEVIATION.getName(), VisibilityEnum.DISABLED); 
 		problem.addStepSequence(stepSequence);
 	}
 	private void buildMeanStepSequences(StatisticsProblem problem) throws StepException
 	{
-		StepSequence stepSequence = enableAndShowOutputForButton(problem, StepEnum.MEAN);
+		StepSequence stepSequence = enableAndShowOutputForStep(problem, StepEnum.MEAN);
 		stepSequence.addVisibilityOnlyInterfaceUpdate(StepEnum.DEVIATION.getName(), VisibilityEnum.ENABLED);
 		for (int i = 0; i < 10; i++)
 		{
@@ -112,6 +112,7 @@ public class ProblemBuilder
 	{
 		StepSequence stepSequence = new StepSequence(StepEnum.DEVIATION, problem); 
 		stepSequence.addVisibilityOnlyInterfaceUpdate(StepEnum.SQUARED_DEVIATION.getName(), VisibilityEnum.ENABLED);
+		//as soon as Deviation step runs, it has to run the subordinate steps, just as if they had been requested from the interface...
 		for (int i = 0; i < 10; i++)
 		{
 			makeDeviationOrSquaredDeviationVisibleAndPopulated(stepSequence, StepEnum.DEVIATION, i); 
@@ -126,12 +127,18 @@ public class ProblemBuilder
 	{
 		stepSequence.addVisibilityAndDataInterfaceUpdate(stepEnum.getName()+current+OUTPUT, VisibilityEnum.ENABLED, stepEnum.getName()+current);
 	}
+	protected StepSequence enableAndShowOutputForStep(StatisticsProblem problem, StepEnum stepEnum)
+	{
+		StepSequence stepSequence = new StepSequence(stepEnum, problem); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate(stepEnum.getName()+OUTPUT, VisibilityEnum.ENABLED, stepEnum.getName());
+		return stepSequence;
+	}
 
 	private void buildSquaredDeviationsStepSequence(StatisticsProblem problem) throws StepException
 	{
 		StepSequence stepSequence = new StepSequence(StepEnum.SQUARED_DEVIATION, problem); 
 		updateButtonVisibility(stepSequence, StepEnum.SUM_OF_SQUARED_DEVIATIONS, VisibilityEnum.ENABLED);
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < 10; i++)
 		{
 			makeDeviationOrSquaredDeviationVisibleAndPopulated(stepSequence, StepEnum.SQUARED_DEVIATION, i); 
 		} 
@@ -141,7 +148,7 @@ public class ProblemBuilder
 
 	private void buildSumOfSquaredDeviationsStepSequence(StatisticsProblem problem) throws StepException
 	{
-		StepSequence stepSequence = enableAndShowOutputForButton(problem, StepEnum.SUM_OF_SQUARED_DEVIATIONS);
+		StepSequence stepSequence = enableAndShowOutputForStep(problem, StepEnum.SUM_OF_SQUARED_DEVIATIONS);
 		updateButtonVisibility(stepSequence, StepEnum.VARIANCE, VisibilityEnum.ENABLED);
 		updateButtonVisibility(stepSequence, StepEnum.STANDARD_DEVIATION, VisibilityEnum.DISABLED);
 		problem.addStepSequence(stepSequence);
@@ -149,7 +156,7 @@ public class ProblemBuilder
 
 	private void buildVarianceStepSequence(StatisticsProblem problem) throws StepException
 	{
-		StepSequence stepSequence = enableAndShowOutputForButton(problem, StepEnum.VARIANCE);
+		StepSequence stepSequence = enableAndShowOutputForStep(problem, StepEnum.VARIANCE);
 		updateButtonVisibility(stepSequence, StepEnum.STANDARD_DEVIATION, VisibilityEnum.ENABLED);
 		problem.addStepSequence(stepSequence);
 	}
@@ -160,16 +167,10 @@ public class ProblemBuilder
 		stepSequence.addVisibilityOnlyInterfaceUpdate(stepEnum.getName()+OUTPUT, visibilityEnum);
 	}
 
-	protected StepSequence enableAndShowOutputForButton(StatisticsProblem problem, StepEnum stepEnum)
-	{
-		StepSequence stepSequence = new StepSequence(stepEnum, problem); 
-		stepSequence.addVisibilityAndDataInterfaceUpdate(stepEnum.getName()+OUTPUT, VisibilityEnum.ENABLED, stepEnum.getName());
-		return stepSequence;
-	}
 
 	private void buildStandardDeviationStepSequence(StatisticsProblem problem) throws StepException
 	{
-		StepSequence stepSequence = enableAndShowOutputForButton(problem, StepEnum.STANDARD_DEVIATION);
+		StepSequence stepSequence = enableAndShowOutputForStep(problem, StepEnum.STANDARD_DEVIATION);
 		problem.addStepSequence(stepSequence);
 	}
 	public void setTeacher(Teacher teacher)

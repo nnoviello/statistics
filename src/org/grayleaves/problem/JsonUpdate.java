@@ -8,7 +8,8 @@ public class JsonUpdate
 {
 	protected static final String UPDATE_JAVA_CLASS_NOT_IN_INPUT = "JsonUpdate.getUpdate:  no updateJavaClass parameter found in JSON input string:\n";
 	protected static final String UPDATE_CLASS = "JsonUpdate.getUpdate:  class ";
-	protected static final String DOES_NOT_EXIST = " does not exist or has been renamed."; 
+	protected static final String DOES_NOT_EXIST = " does not exist or has been renamed.";
+	private static final String RESET_STATE_FOR_TESTING = "JsonUpdate.getUpdate:  reset of server state requested from user interface unit test, for testing.  New Teacher will be created."; 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Update getUpdate(String jsonInput) throws InvalidJsonUpdateException
 	{
@@ -17,7 +18,6 @@ public class JsonUpdate
 		Update update = gson.fromJson(jsonInput, clazz); 
 		return update;
 	}
-
 	@SuppressWarnings("rawtypes")
 	private Class buildClass(String jsonInput) throws InvalidJsonUpdateException
 	{
@@ -28,6 +28,10 @@ public class JsonUpdate
 		{
 			updateJavaClass = gson.fromJson(jsonInput, UpdateJavaClass.class); 
 			if (updateJavaClass.updateJavaClass == null ) throw new InvalidJsonUpdateException(UPDATE_JAVA_CLASS_NOT_IN_INPUT+jsonInput); 
+			if (updateJavaClass.resetStateForTesting) 
+			{
+				throw new ResetStateForTestingException(RESET_STATE_FOR_TESTING); 
+			}
 			clazz = Class.forName(updateJavaClass.updateJavaClass);
 		}
 		catch (ClassNotFoundException e)

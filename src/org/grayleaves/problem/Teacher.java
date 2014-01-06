@@ -8,6 +8,7 @@ import java.util.Observer;
 import java.util.Stack;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class Teacher implements Observer
@@ -123,9 +124,11 @@ public class Teacher implements Observer
 		}
 		catch (ProblemException e)
 		{
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+//			e.printStackTrace();  // cut down on the volume
 		}
-		Gson gson = new Gson();
-		return gson.toJson(map);
+		Gson gson = new GsonBuilder().setExclusionStrategies(new JsonExclusionStrategy())
+				.serializeNulls().create();  
+	return gson.toJson(map);
 	}
 }

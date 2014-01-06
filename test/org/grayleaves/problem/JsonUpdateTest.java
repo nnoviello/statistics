@@ -15,6 +15,7 @@ public class JsonUpdateTest
 	private String jsonInput = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[7,8,9]}";
 	private String jsonInputNoUpdateClass = "{\"id\":5,\"field\":\"value1\",\"someArray\":[7,8,9]}";
 	private String jsonInputNonexistentClass = "{\"updateJavaClass\":\"org.resres.stats.controller.NonexistentUpdate\",\"id\":5,\"field\":\"value1\",\"someArray\":[7,8,9]}";
+	private String jsonInputResetForTesting = "{\"updateJavaClass\":\"org.grayleaves.problem.TestingUpdate\",\"resetStateForTesting\":true}";
 	private JsonUpdate updater;	
 	//TODO tests for malformed input
 	@Before
@@ -60,6 +61,11 @@ public class JsonUpdateTest
 			assertEquals(JsonUpdate.UPDATE_CLASS+"org.resres.stats.controller.NonexistentUpdate"+JsonUpdate.DOES_NOT_EXIST, e.getMessage()); 
 		}
 	}
-	
+	@Test(expected=ResetStateForTestingException.class)
+	public void verifyThrowsIfResetRequestedForTesting() throws Exception
+	{
+			@SuppressWarnings("unused")
+			Update update = updater.getUpdate(jsonInputResetForTesting);  
+	}
 
 }
