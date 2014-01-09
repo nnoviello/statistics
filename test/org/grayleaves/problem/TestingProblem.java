@@ -8,11 +8,19 @@ public class TestingProblem extends AbstractProblem
 
 	private Teacher teacher;
 	private TestingStep testingStep;
+	private int steps;
 
 	public TestingProblem(Teacher teacher)
 	{
+		this(teacher, 1); 
+	}
+
+	public TestingProblem(Teacher teacher, int steps)
+	{
 		this.teacher = teacher; 
-		getStepMap().put(StepEnum.TESTING_STEP.getName(), StepEnum.TESTING_STEP); 
+		this.steps = steps; 
+		addStepMapEntry(StepEnum.TESTING_STEP);
+//		getStepMap().put(StepEnum.TESTING_STEP.getName(), StepEnum.TESTING_STEP); 
 	}
 
 	@Override
@@ -33,5 +41,11 @@ public class TestingProblem extends AbstractProblem
 	protected TestingStep getTestingStep()
 	{
 		return testingStep;
+	}
+
+	@Override
+	public int getNumberOfSteps(StepSequence stepSequence)
+	{
+		return steps;
 	}
 }

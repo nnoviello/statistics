@@ -131,6 +131,11 @@ public class TeacherTest
 		{
 			return null;
 		}
+		@Override
+		public int getNumberOfSteps(StepSequence stepSequence)
+		{
+			return 0;
+		}
 		
 	}
 }

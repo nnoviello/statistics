@@ -1,8 +1,11 @@
 package org.grayleaves.problem;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class StepSequence
 {
@@ -20,6 +23,12 @@ public class StepSequence
 	private boolean executed;
 	private Problem problem;
 	private int order;
+	private List<StepSequence> stepSequences;
+	private boolean list;
+	private List<StepSequence> littleStepSequences;
+	private String suffix;
+	private Map<String, InterfaceUpdate> combinedInterfaceUpdateMap;
+	private Update update;
 
 	public StepSequence(StepEnum stepEnum, Problem problem)
 	{
@@ -29,10 +38,12 @@ public class StepSequence
 	public StepSequence(StepEnum stepEnum, String suffix, Problem problem)
 	{
 		this.stepEnum = stepEnum; 
+		this.suffix = suffix; 
 		id = stepEnum.getName()+suffix; 
 		interfaceUpdateMap = new HashMap<String, InterfaceUpdate>(); 
 		executed = false; 
 		this.problem = problem; 
+		littleStepSequences = new ArrayList<StepSequence>(); 
 	}
 
 	public String getId()
@@ -60,10 +71,6 @@ public class StepSequence
 	{
 		interfaceUpdateMap.put(stepSequenceId, new VisibilityAndDataInterfaceUpdate(stepSequenceId, visibility.getVisibility(), this.id)); 
 	}
-//	public void addVisibilityAndDataInterfaceUpdate(String stepSequenceId, VisibilityEnum visibility, String dataStepSequenceId)
-//	{
-//		interfaceUpdateMap.put(stepSequenceId, new VisibilityAndDataInterfaceUpdate(stepSequenceId, visibility.getVisibility(), dataStepSequenceId)); 
-//	}
 	public Map<String, InterfaceUpdate> execute() throws ProblemException
 	{
 		updateData();
@@ -105,7 +112,6 @@ public class StepSequence
 		}
 		return step; 
 	}
-
 	private void updateData() throws ProblemException
 	{
 		String dataStepSequenceId = null; 
@@ -122,7 +128,6 @@ public class StepSequence
 			}
 		}
 	}
-
 	public void updateStep(Step step)
 	{
 		this.step = step; 
@@ -135,30 +140,107 @@ public class StepSequence
 	{
 		this.order = order; 
 	}
-
-	public Map<String, InterfaceUpdate> buildAndExecuteSteps(Update update,
+	public Map<String, InterfaceUpdate> buildAndExecuteStepsAndStepSequences(Update update,
 			AbstractProblem problem) throws ProblemException
+	{
+		this.update = update; 
+		buildAndExecuteStep(update, problem); 
+		buildLittleStepSequences(); 
+		buildSteps(); 
+		return executeStepSequences(); 
+	}
+
+	private void buildSteps() throws ProblemException
+	{
+		for (StepSequence stepSequence : littleStepSequences)
+		{
+			stepSequence.buildAndExecuteStep(update, problem);
+		}
+	}
+
+	protected void buildAndExecuteStep(Update update, Problem problem)
+			throws ProblemException
 	{
 		Step step = problem.buildStep(update, this); 
 		step.execute(); 
-		updateStep(step); 
-		return execute(); 
+		updateStep(step);
 	}
-
-	public void addStepSequence(StepSequence stepSequence)
+	public void addLittleStepSequence(StepSequence stepSequence)
 	{
+		littleStepSequences.add(stepSequence);
 	}
 
-	public StepSequence getStepSequence(int i)
+	public Map<String, InterfaceUpdate> executeStepSequences() throws ProblemException
 	{
-		return null;
+		interfaceUpdateMap = execute(); 
+		combinedInterfaceUpdateMap = new HashMap<String, InterfaceUpdate>();
+		addToCombinedMap(interfaceUpdateMap);
+		//FIXME when do we do execute? 
+		for (StepSequence stepSequence : getLittleStepSequences())
+		{
+			addToCombinedMap(stepSequence.executeStepSequences());
+		}
+		return combinedInterfaceUpdateMap;
 	}
 
-	public Map<String, InterfaceUpdate> executeSteps()
+	private void addToCombinedMap(
+			Map<String, InterfaceUpdate> interfaceUpdateMap)
 	{
-		return null;
+		Set<Entry<String, InterfaceUpdate>> entries = interfaceUpdateMap.entrySet(); 
+		for (Entry<String, InterfaceUpdate> entry : entries)
+		{
+			//TODO test for conflicting keys
+			combinedInterfaceUpdateMap.put(entry.getKey(), entry.getValue());
+		}
 	}
 
+	public void setList(boolean list)
+	{
+		this.list = list; 
+	}
 
+	protected void buildLittleStepSequences() throws ProblemException
+	{
+		if (list)
+		{
+			StepSequence stepSequence = null; 
+			for (int i = 0; i < problem.getNumberOfSteps(this); i++)
+			{
+				stepSequence = new StepSequence(getStepEnum(), i+suffix, problem); //TODO revisit prefixing the i; makes nesting awkward
+				stepSequence.setIndex(i); 
+//				stepSequence.buildStep(update, problem); 
+				littleStepSequences.add(stepSequence);  
+			}
+		}
+	}
+	@Override
+	public String toString()
+	{
+		return "StepSequence: "+id+", index: "+index+", StepEnum: "+stepEnum.getName()+", step exists: "+((getStep() != null) ? "Y" : "N");
+	}
+	public List<StepSequence> getLittleStepSequences()
+	{
+		return littleStepSequences;
+	}
+
+	protected void setUpdateForTesting(Update update)
+	{
+		this.update = update;
+	}
+
+	public String printInterfaceUpdates()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append("interface updates: \n");
+		if (combinedInterfaceUpdateMap != null)
+		{
+			for (InterfaceUpdate interfaceUpdate : combinedInterfaceUpdateMap.values())
+			{
+				sb.append(interfaceUpdate.toString()); 
+				sb.append("\n"); 
+			}
+		}
+		return sb.toString();
+	}
 
 }

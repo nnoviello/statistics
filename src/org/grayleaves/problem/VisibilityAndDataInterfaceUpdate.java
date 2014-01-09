@@ -31,6 +31,11 @@ public class VisibilityAndDataInterfaceUpdate implements DataInterfaceUpdate
 	{
 		return dataStepSequenceId;
 	}
+	@Override
+	public String toString()
+	{
+		return this.getClass().getName()+":  StepSequenceId: "+stepSequenceId+", visibility: "+visibility+", dataStepSequenceId: "+dataStepSequenceId;
+	}
 
 
 }

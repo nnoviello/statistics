@@ -10,5 +10,10 @@ public class VisibilityOnlyInterfaceUpdate implements InterfaceUpdate
 		this.stepSequenceId = stepSequenceId; 
 		this.visibility = visibility; 
 	}
+	@Override
+	public String toString()
+	{
+		return this.getClass().getName()+":  StepSequenceId: "+stepSequenceId+", visibility: "+visibility;
+	}
 
 }

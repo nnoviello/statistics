@@ -38,5 +38,10 @@ public class DataOnlyInterfaceUpdate implements DataInterfaceUpdate
 	{
 		return dataStepSequenceId;
 	}
+	@Override
+	public String toString()
+	{
+		return this.getClass().getName()+":  StepSequenceId: "+stepSequenceId+", dataStepSequenceId: "+dataStepSequenceId;
+	}
 
 }

@@ -49,6 +49,13 @@ public class ProblemTest
 		}
 	}
 	@Test
+	public void verifyTellsStepSequenceHowManyStepsToCreate() throws Exception
+	{
+		assertEquals("default is one",1,problem.getNumberOfSteps(stepSequence) );
+		problem = new TestingProblem(teacher, 3); 
+		assertEquals("...but problem has to decide how many it needs",3,problem.getNumberOfSteps(stepSequence) );
+	}
+	@Test
 	public void verifyAcceptsUpdatesInJsonFormat() throws Exception
 	{
 		TestingUpdate update = (TestingUpdate) problem.buildUpdate(jsonInput); 
@@ -107,6 +114,7 @@ public class ProblemTest
 		assertEquals(3.5,((VisibilityAndDataInterfaceUpdate) interfaceUpdate).data, .001);  
 		assertEquals("explanation of data step",((VisibilityAndDataInterfaceUpdate) interfaceUpdate).explanation);  
 		Gson gson = new Gson();
-		System.out.println(gson.toJson(interfaceUpdateMap));
+//		System.out.println(gson.toJson(interfaceUpdateMap));
 	}
+	
 }

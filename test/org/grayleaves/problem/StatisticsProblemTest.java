@@ -36,6 +36,14 @@ public class StatisticsProblemTest
 		problem.addStepSequence(stepSequence);
 	}
 	@Test
+	public void verifyReturnsNumberOfVariableScoresAsNumberOfStepsForDeviationsEtc() throws Exception
+	{
+		problem.getVariable().addScore(2.2); 
+		assertEquals("default for most steps is one",1, problem.getNumberOfSteps(new StepSequence(StepEnum.ADD_SCORE, problem))); 
+		assertEquals("Deviation is N steps",2, problem.getNumberOfSteps(new StepSequence(StepEnum.DEVIATION, problem))); 
+		assertEquals("Squared Deviation is N steps",2, problem.getNumberOfSteps(new StepSequence(StepEnum.SQUARED_DEVIATION, problem))); 
+	}
+	@Test
 	public void verifyStepsBuiltForStatisticsProblemFromInput() throws Exception
 	{
 		Update update = problem.buildUpdate(jsonInput); //combine 

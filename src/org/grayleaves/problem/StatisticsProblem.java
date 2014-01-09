@@ -44,6 +44,16 @@ public class StatisticsProblem extends AbstractProblem implements Problem
 		default:  return null; 
 		}
 	}
+	@Override
+	public int getNumberOfSteps(StepSequence stepSequence)
+	{
+		switch (stepSequence.getStepEnum())
+		{
+		case DEVIATION: return getVariable().getN(); 
+		case SQUARED_DEVIATION: return getVariable().getN(); 
+		default: return 1; 
+		}
+	}
 	protected double parseScore(Update update)
 	{
 		double score = Double.parseDouble(((StatisticsUpdate) update).afterValue);

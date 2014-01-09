@@ -47,11 +47,7 @@ public abstract class AbstractProblem implements Problem
 	{
 		Update update = buildUpdate(jsonInput); 
 		StepSequence stepSequence = buildStepSequence(update); 
-		return stepSequence.buildAndExecuteSteps(update, this);
-//		Step step = buildStep(update, stepSequence); 
-//		step.execute(); 
-//		stepSequence.updateStep(step); 
-//		return stepSequence.execute(); 
+		return stepSequence.buildAndExecuteStepsAndStepSequences(update, this);
 	}
 	@Override
 	public Update buildUpdate(String jsonUpdate) throws ProblemException
@@ -80,12 +76,13 @@ public abstract class AbstractProblem implements Problem
     @Override
     public abstract Step buildStep(Update update, StepSequence stepSequence) throws ProblemException; 
     
+    public abstract int getNumberOfSteps(StepSequence stepSequence);
 
     public Map<String, StepEnum> getStepMap()
 	{
 		return stepMap;
 	}
-	protected void addStepMapEntry(StepEnum stepEnum)
+	public void addStepMapEntry(StepEnum stepEnum)
 	{
 		getStepMap().put(stepEnum.getName(), stepEnum);
 	}
