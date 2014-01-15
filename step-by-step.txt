@@ -1,0 +1,71 @@
+Step by step
+
+The core of our basic statistics problem is a Variable, whose state is a set of scores whose methods are math operations performed on those scores.  
+Let's call Variable the Model.  The Model's role is to maintain state.  
+
+Variable also has a set of methods.  Each method is accessible as a Step.    
+
+To solve a Problem, we invoke a Path - a sequence of Steps [currently called a StepSequence, but I'm thinking Path is more clear].  
+The Path to generate a Mean is to invoke the steps AddScore 1-n times (optionally, DeleteScore or ReplaceScore), then SumOfScores and N (either order), then Mean.     
+
+A Path is a controller, in MVC-speak -- it's how we get something done.  
+
+Steps can be composed of littler Steps.  At first, the student must follow all the little Steps, but as they master the little Steps, the Path can be presented with just the higher-level Steps.  Initially, students learn to calculate a Mean by counting the number of scores N, adding them up to create a SumOfScores, and then dividing SumOfScores by N.  Once they have mastered the concept, students will just execute the Mean step directly. 
+A Step may also be a StepList -- the same Step executed n times, where n is derived from the Model.  For the basic statistics problem, there are as many Deviation and SquaredDeviation steps as there have been Scores entered. 
+
+So far, this feels like a reification of basic object concepts...  
+
+A Teacher follows what the student is doing, and attempts to help them in their learning.  A Teacher:
+-presents Problems
+-moves backwards and forwards in the stream of Steps ("show me how you did that again?" "oh ok, now let's go back to where we were")
+-drills down into little Steps ("I forget how to calculate the mean -- would you show me?")
+-asks Steps to explain themselves
+-tracks the student's navigation to related Problems, hints, discussions, videos ("where were we?")
+
+A Teacher's state is stored in a LearningHistory:  the Problems a student has worked on, what they've mastered and what they've had trouble with.  
+This helps the Teacher pick up where the student left off last time, and helps the system learn what's working well and what isn't for students.
+
+A Problem attempts to help a student master a concept by establishing a concrete goal they are to reach.  The students follow one or more Paths to reach the goal.  
+
+Problems, Paths and Steps can operate in one of three Modes:
+-Demonstration:  the system shows the student how the Problem/Path/Step is accomplished
+-Exercise:  the student is asked to do the Problem/Path/Step themselves, with assistance from the Teacher (hints, back and forth between Steps, suggested corrections)
+-Test:  the student is asked to do the Problem/Path/Step themselves, without assistance from the Teacher
+
+The Modes can be mixed.  The basic statistics problem of finding the Mean and StandardDeviation is mostly Demonstration, but the Add/Delete/ReplaceScores steps are done in Exercise mode -- the student enters whatever they like, and views the results in Demonstration mode.
+
+The system presents Variations.  One type of Variation is an alternate Path to solve the Problem.  There are multiple Paths to finding the Mean and StandardDeviation.  In the basic statistics problem, Deviations and SquaredDeviations are calculated for each Score.  Later, the Frequency is calculated for each score, and the SumOfScores is created by adding the WeightedScores, then divided by N to give the Mean.  Another Path is to calculate the Proportion that a Score comprises of the total number of Scores, and calculate the mean directly by adding the ProportionallyWeightedScores.       
+
+A second type of Variation is an incorrect Path or Step taken by a student.  The student may attempt to calculate the Mean by dividing N by the SumOfScores, or may attempt to calculate the Variance by adding all the Deviations instead of the SquaredDeviations, then dividing by N.     
+When the student enters a response that doesn't match the result from the correct Path, the Problem creates and executes Variations -- Paths that represent common mistakes.  
+The Teacher examines each Variation to see if it matches the student's response; if a match is found, the Teacher presents the Correction -- "It looks like you divided the number of scores by the sum of scores.  That's a common mistake.  To calculate the mean, divide the sum of scores by the number of scores."
+
+Variations mean that the system maintains an arbitrary number of alternate universes -- multiple copies of the Model are generated dynamically whenever the student stumbles, to try each of the known Variations, to see if we can figure out what went wrong.  As the student gets past the mistake, the Variations are discarded.
+
+Many Variations are just a shuffling of possible Steps in some alternate Path.  But some could be even more elementary.  A Deviation is calculated by subtracting the Mean from the Score.  Right now, "subtraction" is not a Step for Variable.  The granularity is higher, at the level of the Deviation, which does (Score - Mean).  For statistics, we are assuming that basic arithmetic operations have been mastered.  This might imply that a Model needs to be able to generate some Variations itself.  Deviation Variation:  (Mean - Score)  
+
+Fragments on a scripting language:
+-Steps and Paths are a sequence
+-StepLists are an iteration
+-Variations are conditional execution
+-Links to other problems, hints, documentation are conditional execution
+
+...perhaps we don't need iteration and conditional execution operators?  Can we just declare "StepList of Deviation", "list of Variations"?  ...just dreamin'...
+
+Fragments on Views:
+So far, I've only talked about Models and Controllers.  That might be a grumbling side-effect of wrestling with a test over the past two days that's all about the interaction of the client View with the server StepSequence controller.  
+Perhaps the View logic is created dynamically by Steps, Paths, Problems.  
+One model might be a JSP, or FIT, where the static document is written as a wiki or a word document, and at the right spots, scriptlets are invoked to create Steps, Paths, Problems.
+But if the Teacher is to be all-seeing, the links, documentation, videos, etc., need to be visible to the system as well, so we can follow where the student is going...  
+
+--------------
+
+That's the picture of how the system supports a student's learning, directly.  There are another set of stories for teachers and problem-writers:
+-create and document problems
+-vote on what problems have been effective
+-see statistics on how students are doing
+-build curricula
+-build and administer tests    
+
+later...
+    

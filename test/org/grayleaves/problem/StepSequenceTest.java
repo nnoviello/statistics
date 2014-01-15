@@ -154,6 +154,15 @@ public class StepSequenceTest
 	@Test
 	public void verifyGenerateListCanHaveGeneratedInterfaceUpdates() throws Exception
 	{
+		problem = new TestingProblem(null, 3); 
+		stepSequence = new StepSequence(StepEnum.TESTING_STEP,"0", problem);
+		stepSequence.setUpdateForTesting(new TestingUpdate(1, "testingStep"));
+		stepSequence.setList(true); 
+		stepSequence.buildLittleStepSequences(); 
+		stepSequence.addVisibilityAndDataInterfaceUpdate("testingStep1", VisibilityEnum.ENABLED); // inherit on down
+		assertEquals(3, stepSequence.getLittleStepSequences().size()); 
+		assertEquals(StepEnum.TESTING_STEP, stepSequence.getLittleStepSequences().get(0).getStepEnum()); 
+		assertEquals("awkward name...","testingStep20", stepSequence.getLittleStepSequences().get(2).getId()); 
 		//TODO verifyGenerateListCanHaveGeneratedInterfaceUpdates
 		//TODO verify Data interface updates add steps to problem's step map 
 	}
